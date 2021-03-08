@@ -10,3 +10,4 @@ import Vector from './engine/vector';
 */
 
 const a = new Vector(20, 25);
+console.log('ENGINE loaded');

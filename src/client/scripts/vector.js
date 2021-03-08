@@ -1,3 +1,5 @@
+// Vector2 engine module designed by Alan O'Cull
+
 /**
  * @function Vector
  * @summary Creates a new vector from the given X and Y parameters
@@ -112,5 +114,7 @@ Vector.prototype.divideV = function VectorDivideV(a, b) {
 Vector.prototype.divide = function VectorDivide(a, b) {
     return new Vector(a.x / b, a.y / b);
 }
+
+console.log('VECTOR loaded');
 
 export { Vector as default };
