@@ -116,5 +116,3 @@ Vector.prototype.divide = function VectorDivide(a, b) {
 }
 
 console.log('VECTOR loaded');
-
-export { Vector as default };
