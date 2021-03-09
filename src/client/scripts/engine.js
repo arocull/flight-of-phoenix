@@ -8,4 +8,9 @@
 */
 
 const a = new Vector(20, 25);
+const b = new Prop(new Vector(10, 10), new Vector(15, 15), true);
+
+console.log(a);
+console.log(b);
+
 console.log('Module ENGINE loaded');
