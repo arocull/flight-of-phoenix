@@ -115,4 +115,4 @@ Vector.prototype.divide = function VectorDivide(a, b) {
     return new Vector(a.x / b, a.y / b);
 }
 
-console.log('VECTOR loaded');
+console.log('Module VECTOR loaded');
