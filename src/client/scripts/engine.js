@@ -7,10 +7,27 @@
  * https://www.tutorialsteacher.com/javascript/inheritance-in-javascript
 */
 
-const a = new Vector(20, 25);
-const b = new Prop(new Vector(10, 10), new Vector(15, 15), true);
 
-console.log(a);
-console.log(b);
 
 console.log('Module ENGINE loaded');
+
+
+// GAME LOOP //
+let lastTime = 0;
+function doFrame(newTime) {
+    // Get change in time, and convert it to seconds
+    const deltaTime = (newTime - lastTime) / 1000;
+    // Update lastTime to this new time
+    lastTime = newTime;
+
+    // Game Loop
+
+    return window.requestAnimationFrame(doFrame);
+}
+
+
+// ON PAGE LOAD //
+window.onload = function() {
+    console.log("Page loaded! Starting engine.");
+    window.requestAnimationFrame(doFrame);
+};
