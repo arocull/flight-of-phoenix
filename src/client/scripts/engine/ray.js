@@ -29,7 +29,7 @@ function Ray(start, end) {
     this.start = start;
     this.end = end;
 
-    const dir = end.substract(start);
+    const dir = end.subtract(start);
     this.length = dir.length();
     this.direction = dir.unit();
 }

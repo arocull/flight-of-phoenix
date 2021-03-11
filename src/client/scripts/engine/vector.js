@@ -12,6 +12,21 @@ function Vector(x = 0, y = 0) {
 }
 
 
+// STATICS - Vector direction enum
+const HALF_PI = Math.PI / 2;
+/**
+ * @enum {Vector}
+ * @name EVectorDirection
+ * @summary Provides vectors for cardinal directions without needing reallocation
+ */
+const EVectorDirection = {
+    up: new Vector(0, 1),
+    down: new Vector(0, -1),
+    left: new Vector(-1, 0),
+    right: new Vector(1, 0),
+};
+
+
 // OBJECT DEPENDENT //
 /**
  * @function VectorLength
@@ -19,7 +34,7 @@ function Vector(x = 0, y = 0) {
  * @returns {number}
  */
 Vector.prototype.length = function() {
-    return Math.sqrt(this.x ** 2, this.y ** 2);
+    return Math.sqrt(this.x ** 2 + this.y ** 2);
 }
 /**
  * @function VectorClamp

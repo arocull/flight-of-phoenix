@@ -20,7 +20,7 @@ function Prop(position, size, collidable = true) {
  * @returns {Vector}
  */
 Prop.prototype.getTopLeft = function() {
-    return this.position.subtract(this.size.divide(2));
+    return new Vector(this.position.x - this.size.x / 2, this.position.y + this.size.y / 2);
 }
 /**
  * @function getBotRight
@@ -28,7 +28,7 @@ Prop.prototype.getTopLeft = function() {
  * @returns {Vector}
  */
 Prop.prototype.getBotRight = function() {
-    return this.position.add(this.size.divide(2));
+    return new Vector(this.position.x + this.size.x / 2, this.position.y - this.size.y / 2);
 }
 /**
  * @function setSize
@@ -48,18 +48,56 @@ Prop.prototype.setSize = function(newSize) {
  * @function isPointInside
  * @summary Returns true if the given point is inside the prop, false otherwise
  * @param {Vector} point Point to test
+ * @param {number} radiusBoost Numeric boost to detection radius, ideal for big targets
  * @returns {boolean}
  */
-Prop.prototype.isPointInside = function(point) {
+Prop.prototype.isPointInside = function(point, radiusBoost = 0) {
     const topLeft = this.getTopLeft();
     const botRight = this.getBotRight();
 
     return (
-        point.x >= topLeft.x &&
-        point.y <= topLeft.y &&
-        point.x <= botRight.x &&
-        point.y >= botRight.y
+        point.x + radiusBoost >= topLeft.x &&
+        point.y - radiusBoost <= topLeft.y &&
+        point.x - radiusBoost <= botRight.x &&
+        point.y + radiusBoost >= botRight.y
     );
+}
+/**
+ * @function getPlaneCenter
+ * @summary Quickly returns a point on the given side of this object
+ * @param {number} xDirection Horizontal size offset multiplier, ideally -1 or 1
+ * @param {number} yDirection Vertical size offset multiplier, ideally -1 or 1
+ * @returns {Vector} Returns the center point of this face or corner
+ */
+Prop.prototype.getPlaneCenter = function(xDirection, yDirection) {
+    return new Vector(
+        this.position.x + (xDirection * this.size.x / 2),
+        this.position.y + (yDirection * this.size.y / 2)
+    );
+}
+
+
+/**
+ * @name trace
+ * @summary Performs a ray-trace on this object with the given ray
+ * @param {Ray} ray Ray for testing collision with
+ * @param {boolean} dualSided Whether to perform a dual-sided or single-sided trace
+ * @param {number} radiusBoost Numeric boost to collision radius, ideal for big objects
+ * @returns {TraceResult} Returns a trace result if there was a successful collision, or null
+ */
+Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
+    const topLeft = this.getTopLeft();
+    const botRight = this.getBotRight();
+
+    // Trace top side of object
+    const topTrace = ray.tracePlane(this.getPlaneCenter(0, 1), EVectorDirection.up, dualSided);
+    if (topTrace.collided && this.isPointInside(topTrace.position, radiusBoost)) {
+        console.log("Hit successful!");
+
+        topTrace.hitInfo = this;
+    }
+
+    return topTrace;
 }
 
 console.log("Module PROP loaded");
