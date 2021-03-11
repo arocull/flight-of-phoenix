@@ -8,8 +8,9 @@
 */
 
 
-
-console.log('Module ENGINE loaded');
+// DECLARE GLOBALS //
+let canvas;
+let context;
 
 
 // GAME LOOP //
@@ -20,6 +21,9 @@ function doFrame(newTime) {
     // Update lastTime to this new time
     lastTime = newTime;
 
+    // Lock canvas height to stay proportional with width
+    canvas.height = canvas.width * 1/2;
+
     // Game Loop
 
     return window.requestAnimationFrame(doFrame);
@@ -29,5 +33,14 @@ function doFrame(newTime) {
 // ON PAGE LOAD //
 window.onload = function() {
     console.log("Page loaded! Starting engine.");
+
+    // Set global variables
+    canvas = document.getElementById('game');
+    context = canvas.getContext('2d');
+
+    // Bind game loop
     window.requestAnimationFrame(doFrame);
 };
+
+
+console.log('Module ENGINE loaded');

@@ -2,12 +2,26 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Canvas Element, where game is drawn
+* Note that we do not manage height here.
+* We manage canvas height in engine.js to force
+* a 2:1 aspect ratio (helps keep rendering consistent).
+*/
 canvas {
     background-color: black;
     display: block;
-    max-width: 100%;
-    max-height: 100vh;
-    min-width: 300px;
-    min-height: 200px;
+    max-width: 95%;
+    min-width: 200px;
+    width: 80%;
     margin: auto;
+}
+
+/* If the user has a wide screen, we limit the game
+* width so the canvas height does not go offscreen.
+*/
+@media (min-width: 90vmax) and (max-height: 40vmax) {
+    canvas {
+        max-width: 75%;
+        width: 50%;
+    }
 }

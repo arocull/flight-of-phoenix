@@ -62,4 +62,4 @@ Prop.prototype.isPointInside = function(point) {
     );
 }
 
-console.log("Module PROP loaded!");
+console.log("Module PROP loaded");

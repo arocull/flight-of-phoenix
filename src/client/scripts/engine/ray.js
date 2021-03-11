@@ -88,3 +88,6 @@ Ray.prototype.pointDistance = function(point) {
     const cross = point.subtract(this.start);
     return this.direction.cross(cross);
 }
+
+
+console.log("Module RAY loaded");
