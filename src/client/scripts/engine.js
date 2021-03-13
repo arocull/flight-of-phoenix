@@ -9,9 +9,14 @@
 
 
 // DECLARE GLOBALS //
+/** @type {HTMLCanvasElement} */
 let canvas;
-let context;
-
+/** @type {Render} */
+let render;
+/** @type {Prop[]} */
+const background = [];
+/** @type {Prop[]} */
+const props = [];
 
 // GAME LOOP //
 let lastTime = 0;
@@ -21,10 +26,26 @@ function doFrame(newTime) {
     // Update lastTime to this new time
     lastTime = newTime;
 
-    // Lock canvas height to stay proportional with width
-    canvas.height = canvas.width * 1/2;
 
-    // Game Loop
+    // GAME LOOP //
+
+
+    // DRAWING //
+
+    // Update Frame Size by changing canvas height to stay proportional with width
+    // Also update drawing proportions
+    render.updateScaling();
+
+
+    // Draw background props
+    for (let i = 0; i < background.length; i++) {
+        render.drawProp(background[i]);
+    }
+    // Draw actual props
+    for (let i = 0; i < props.length; i++) {
+        render.drawProp(props[i]);
+    }
+
 
     return window.requestAnimationFrame(doFrame);
 }
@@ -36,7 +57,7 @@ window.onload = function() {
 
     // Set global variables
     canvas = document.getElementById('game');
-    context = canvas.getContext('2d');
+    render = new Render(canvas, 0.5, 50);
 
     // Bind game loop
     window.requestAnimationFrame(doFrame);

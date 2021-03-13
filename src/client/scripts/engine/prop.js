@@ -78,7 +78,7 @@ Prop.prototype.getPlaneCenter = function(xDirection, yDirection) {
 
 
 /**
- * @name trace
+ * @function trace
  * @summary Performs a ray-trace on this object with the given ray
  * @param {Ray} ray Ray for testing collision with
  * @param {boolean} dualSided Whether to perform a dual-sided or single-sided trace
