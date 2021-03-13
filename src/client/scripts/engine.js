@@ -13,10 +13,20 @@
 let canvas;
 /** @type {Render} */
 let render;
-/** @type {Prop[]} */
+/**
+ * @type {Prop[]}
+ * @summary Background props used solely for visuals
+*/
 const background = [];
-/** @type {Prop[]} */
+/** @type {Prop[]}
+ * @summary Static props in foreground that can be collided with
+ */
 const props = [];
+/**
+ * @type {PhysProp[]}
+ * @summary Physics props that can move around and be collided with
+*/
+const dynamics = [];
 
 // GAME LOOP //
 let lastTime = 0;
@@ -44,6 +54,10 @@ function doFrame(newTime) {
     // Draw actual props
     for (let i = 0; i < props.length; i++) {
         render.drawProp(props[i]);
+    }
+    // Draw physics props
+    for (let i = 0; i < dynamics.length; i++) {
+        render.drawProp(dynamics[i]);
     }
 
 
