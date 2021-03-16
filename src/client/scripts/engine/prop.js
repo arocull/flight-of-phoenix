@@ -12,6 +12,8 @@ function Prop(position, size, collidable = true) {
     this.size = size;
     this.radius = size.length();
     this.collidable = collidable;
+
+    this.elasticity = 0.1;
 }
 
 /**
@@ -90,7 +92,7 @@ Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
     const botRight = this.getBotRight();
 
     // Trace top side of object
-    const topTrace = ray.tracePlane(this.getPlaneCenter(0, 1), EVectorDirection.up, dualSided);
+    const topTrace = ray.tracePlane(this.getPlaneCenter(0, 1), EVectorDirection.up, dualSided, radiusBoost);
     if (topTrace.collided && this.isPointInside(topTrace.position, radiusBoost)) {
         console.log("Hit successful!");
 

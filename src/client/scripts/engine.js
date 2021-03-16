@@ -38,7 +38,7 @@ function doFrame(newTime) {
 
 
     // GAME LOOP //
-
+    PHYSICS_tick(deltaTime, dynamics, props);
 
     // DRAWING //
 

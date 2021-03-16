@@ -49,13 +49,14 @@ Ray.prototype.clone = function() {
  * @param {Vector} center Center point of plane 
  * @param {Vector} normal Normalized direction the surface is facing
  * @param {boolean} dualSided If this is true, traces from either side of the normal are valid 
+ * @param {number} radiusBoost Adds to the maximum check distance
  * @returns {TraceResult} TraceResult
  */
-Ray.prototype.tracePlane = function(center, normal, dualSided = false) {
+Ray.prototype.tracePlane = function(center, normal, dualSided = false, radiusBoost = 0) {
     const result = new TraceResult();
 
     // Default result values (in case there is no hit)
-    result.distance = this.length; // Ray went ful distance
+    result.distance = this.length; // Ray went the full distance
     result.position = this.end; // Ray end position
 
     const denom = this.direction.dot(normal);
@@ -65,7 +66,7 @@ Ray.prototype.tracePlane = function(center, normal, dualSided = false) {
             result.position = this.start.add(this.direction.multiply(t));
             result.normal = normal;
             result.distance = this.start.subtract(result.position).length();
-            if (result.distance <= this.length) { // Ensure ray was long enough to hit plane
+            if (result.distance <= this.length + radiusBoost) { // Ensure ray was long enough to hit plane
                 result.collided = true;
             }
         }
