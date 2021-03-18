@@ -14,6 +14,7 @@ function Prop(position, size, collidable = true) {
     this.collidable = collidable;
 
     this.elasticity = 0.1;
+    this.friction = 0.5;
 }
 
 /**
@@ -97,6 +98,7 @@ Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
         console.log("Hit successful!");
 
         topTrace.hitInfo = this;
+        topTrace.topFaceCollision = true;
     }
 
     return topTrace;

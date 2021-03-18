@@ -1,7 +1,8 @@
 // Physics Module
 // This is essentially a static class
 
-const PHYSICS_gravity = 9.8;
+// Gravity constant, though modifiable
+let PHYSICS_gravity = 20;
 
 function PHYSICS_INTERNAL_propTrace() {
 
@@ -19,6 +20,7 @@ function PHYSICS_tick(delta, dynamics, statics) {
 
     for (let i = 0; i < dynamics.length; i++) {
         const obj = dynamics[i];
+        const wasGrounded = obj.grounded;
 
         // Apply existing object forces
         obj.tickForces(delta);
@@ -39,20 +41,7 @@ function PHYSICS_tick(delta, dynamics, statics) {
         for (let x = 0; x < statics.length; x++) {
             const result = statics[x].trace(rayCenter, false, obj.radius / 2);
             if (result.collided) {
-                // Get position adjustment that needs to be applied
-                const posChange = result.normal.multiplyV(obj.size.divide(2));
-                newPos = result.position.add(posChange);
-                
-                // Also adjust prop velocity (bounce or prevent fall-through)
-                const velChange = obj.velocity.multiplyV(
-                    result.normal.multiply(
-                        -(1 + (obj.elasticity + statics[x].elasticity) / 2)
-                    )
-                );
-                obj.velocity = obj.velocity.add(velChange);
-
-                // Ground prop, allows jump regeneration
-                if (result.topFaceCollision) obj.grounded = true;
+                newPos = obj.collide(result, statics[x], newPos);
             }
         }
 

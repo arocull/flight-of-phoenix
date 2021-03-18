@@ -110,5 +110,52 @@ PhysProp.prototype.removeForce = function(forceName) {
     this.forces.remove(forceName);
 }
 
+/**
+ * @function collide
+ * @summary Collides this physics prop with the given prop
+ * @param {TraceResult} collision Collision trace result
+ * @param {Prop} b Prop to collide with
+ * @param {Vector} currentPos Current position being considered for collision
+ */
+PhysProp.prototype.collide = function(collision, b, currentPos) {
+    if (collision.topFaceCollision) {
+        currentPos.y = b.position.y + b.size.y / 2 + this.size.y / 2;
+        this.velocity.y = 0;
+        this.land();
+    } else {
+        if (collision.normal.y < -0.9) { // Bottom face collision, snap to bottom
+            currentPos.y = b.position.y - b.size.y / 2 - this.size.y / 2;
+        } else if (collision.normal.x < -0.9) { // Left face collision
+            currentPos.x = b.position.x - b.size.x / 2 - this.size.x / 2;
+        } else if (collision.normal.x > 0.9) { // Right face collision
+            currentPos.x = b.position.x + b.size.x / 2 + this.size.x / 2;
+        } else { // Try to position box around the prop as a circle haha
+            currentPos = prop.position.add(
+                collision.normal.multiply(prop.radius + this.radius)
+            )
+        }
+
+        this.velocity = this.velocity.subtract(
+            collision.normal.multiply(
+                collision.normal.dot(this.velocity.unit()) * this.velocity.length() 
+                * (1 + (this.elasticity + prop.elasticity) / 2)
+            )
+        );
+    }
+
+    return currentPos;
+}
+
+
+
+// PROP FUNCTIONS //
+/**
+ * @function land
+ * @summary Called whenever this object lands on a surface
+ */
+PhysProp.prototype.land = function() {
+    this.grounded = true;
+}
+
 
 console.log("Module PHYSPROP loaded");
