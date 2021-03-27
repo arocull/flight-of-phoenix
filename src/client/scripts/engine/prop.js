@@ -10,7 +10,7 @@
 function Prop(position, size, collidable = true) {
     this.position = position;
     this.size = size;
-    this.radius = size.length();
+    this.radius = size.length() / 2;
     this.collidable = collidable;
 
     this.elasticity = 0.1;
@@ -89,19 +89,35 @@ Prop.prototype.getPlaneCenter = function(xDirection, yDirection) {
  * @returns {TraceResult} Returns a trace result if there was a successful collision, or null
  */
 Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
-    const topLeft = this.getTopLeft();
-    const botRight = this.getBotRight();
 
     // Trace top side of object
     const topTrace = ray.tracePlane(this.getPlaneCenter(0, 1), EVectorDirection.up, dualSided, radiusBoost);
     if (topTrace.collided && this.isPointInside(topTrace.position, radiusBoost)) {
-        console.log("Hit successful!");
-
         topTrace.hitInfo = this;
         topTrace.topFaceCollision = true;
+        return topTrace;
     }
 
-    return topTrace;
+    const leftTrace = ray.tracePlane(this.getPlaneCenter(-1, 0), EVectorDirection.left, dualSided, radiusBoost);
+    if (leftTrace.collided && this.isPointInside(leftTrace.position, radiusBoost)) {
+        leftTrace.hitInfo = this;
+        return leftTrace;
+    }
+
+    const rightTrace = ray.tracePlane(this.getPlaneCenter(1, 0), EVectorDirection.right, dualSided, radiusBoost);
+    if (rightTrace.collided && this.isPointInside(rightTrace.position, radiusBoost)) {
+        rightTrace.hitInfo = this;
+        return rightTrace;
+    }
+
+    const botTrace = ray.tracePlane(this.getPlaneCenter(0, -1), EVectorDirection.down, dualSided, radiusBoost);
+    if (botTrace.collided && this.isPointInside(botTrace.position, radiusBoost)) {
+        botTrace.hitInfo = this;
+        return botTrace;
+    }
+
+
+    return new TraceResult(); // Nothing collided
 }
 
 console.log("Module PROP loaded");

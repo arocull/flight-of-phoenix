@@ -34,15 +34,17 @@ Force.prototype.getImpulse = function(delta) {
  * @param {number} mass Weight of object in kilograms
  */
 function PhysProp (position, size, mass) {
-    this.position = position
+    this.position = position;
     this.size = size;
-    this.radius = size.length(); // Recalculate radius
+    this.radius = size.length() / 2; // Recalculate radius
 
     this.mass = mass;
     this.velocity = new Vector(0, 0);
     this.acceleration = new Vector(0, 0);
     this.elasticity = 0.5;
     this.grounded = false;
+
+    this.lastPosition = position;
 
     // Use map object for forces (so we can organize them)
     /** @type {Map<String, Force>} */
@@ -119,26 +121,27 @@ PhysProp.prototype.removeForce = function(forceName) {
  */
 PhysProp.prototype.collide = function(collision, b, currentPos) {
     if (collision.topFaceCollision) {
-        currentPos.y = b.position.y + b.size.y / 2 + this.size.y / 2;
+        //currentPos.y = b.position.y + b.size.y / 2 + this.size.y / 2;
+        currentPos.y = collision.position.y + this.size.y / 2;
         this.velocity.y = 0;
         this.land();
     } else {
         if (collision.normal.y < -0.9) { // Bottom face collision, snap to bottom
-            currentPos.y = b.position.y - b.size.y / 2 - this.size.y / 2;
+            currentPos.y = collision.position.y - this.size.y / 2;
         } else if (collision.normal.x < -0.9) { // Left face collision
-            currentPos.x = b.position.x - b.size.x / 2 - this.size.x / 2;
+            currentPos.x = collision.position.x - this.size.x / 2;
         } else if (collision.normal.x > 0.9) { // Right face collision
-            currentPos.x = b.position.x + b.size.x / 2 + this.size.x / 2;
+            currentPos.x = collision.position.x + this.size.x / 2;
         } else { // Try to position box around the prop as a circle haha
-            currentPos = prop.position.add(
-                collision.normal.multiply(prop.radius + this.radius)
+            currentPos = b.position.add(
+                collision.normal.multiply(b.radius + this.radius)
             )
         }
 
         this.velocity = this.velocity.subtract(
             collision.normal.multiply(
                 collision.normal.dot(this.velocity.unit()) * this.velocity.length() 
-                * (1 + (this.elasticity + prop.elasticity) / 2)
+                * (1 + (this.elasticity + b.elasticity) / 2)
             )
         );
     }

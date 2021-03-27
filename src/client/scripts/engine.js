@@ -36,6 +36,11 @@ function doFrame(newTime) {
     // Update lastTime to this new time
     lastTime = newTime;
 
+    // If the animation frame took too long, skip it--the tab/window was not being viewed and game should have "paused"
+    if (deltaTime > 0.1) {
+        return window.requestAnimationFrame(doFrame);
+    }
+
 
     // GAME LOOP //
     PHYSICS_tick(deltaTime, dynamics, props);
