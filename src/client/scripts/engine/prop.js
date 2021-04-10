@@ -15,6 +15,24 @@ function Prop(position, size, collidable = true) {
 
     this.elasticity = 0.1;
     this.friction = 0.5;
+
+    /** @description Animation only, will draw sprite backwards if true */
+    this.flipped = false;
+
+    /** @type {HTMLImageElement} */
+    this.sprite = undefined;
+    /** @description Sprite width, used for animation */
+    this.spriteWidth = 512;
+    /** @description Sprite height, used for animation */
+    this.spriteHeight = 512;
+    /** @description Set to true if this sprite should use SpriteWidth + SpriteHeight */
+    this.animated = false;
+    /** @description Row of sprite to draw for animation */
+    this.animationRow = 0;
+    /** @description Column of sprite to draw for animation */
+    this.animationCol = 0;
+    /** @description General-use timer for animation */
+    this.animationTimer = 0;
 }
 
 /**
@@ -118,6 +136,16 @@ Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
 
 
     return new TraceResult(); // Nothing collided
+}
+
+/**
+ * @function tickAnimation
+ * @summary Ticks the animation of this prop by the given amount of time
+ * @description Does nothing by default--override in inherited objects
+ * @param {number} DeltaTime Change in time since last frame
+ */
+Prop.prototype.tickAnimation = function(DeltaTime) {
+    // Does nothing by default
 }
 
 console.log("Module PROP loaded");

@@ -73,8 +73,19 @@ Render.prototype.drawProp = function(obj) {
     const pos = this.getDrawPos(obj.getTopLeft());
     const size = this.getDrawSize(obj.size);
 
-    this.context.fillStyle = '#999999';
-    this.context.fillRect(pos.x, pos.y, size.x, size.y);
+    if (obj.animated && obj.sprite) { // Draw animated sprite
+        const framePosX = obj.spriteWidth * obj.animationCol; // Pick column
+        const framePosY = obj.spriteHeight * (obj.animationRow * 2) + (obj.flipped * obj.spriteHeight);
+        // ^ Pick row--each row has a flipped variant immediately after it, so we need to double the row position
+        // Bools act as 1 or 0 in math operations, so we can easily get the flipped row position this way
+
+        this.context.drawImage(obj.sprite, framePosX, framePosY, obj.spriteWidth, obj.spriteHeight, pos.x, pos.y, size.x, size.y)
+    } else if (obj.sprite) { // Draw full sprite
+        this.context.drawImage(obj.sprite, pos.x, pos.y, size.x, size.y);
+    } else { // Draw placeholder rectangle
+        this.context.fillStyle = '#999999';
+        this.context.fillRect(pos.x, pos.y, size.x, size.y);
+    }
 }
 
 
