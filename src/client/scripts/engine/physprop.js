@@ -43,6 +43,8 @@ function PhysProp (position, size, mass) {
     this.acceleration = new Vector(0, 0);
     this.elasticity = 0.5;
     this.grounded = false;
+    this.groundedFriction = 0; // Friction of last object this object rested on.
+    this.terminalVelocity = 0; // Maximum horizontal velocity per second. Set to 0 for no limit.
 
     this.lastPosition = position;
 
@@ -111,6 +113,15 @@ PhysProp.prototype.addForce = function(forceName, forceVector, forceDuration) {
 PhysProp.prototype.removeForce = function(forceName) {
     this.forces.delete(forceName);
 }
+/**
+ * @function getForce
+ * @summary Returns the force object under the given label
+ * @param {string} forceName Label of force to get
+ * @returns {Force} Force object, may be undefined
+ */
+PhysProp.prototype.getForce = function(forceName) {
+    return this.forces.get(forceName);
+}
 
 /**
  * @function collide
@@ -125,6 +136,7 @@ PhysProp.prototype.collide = function(collision, b, currentPos) {
         currentPos.y = collision.position.y + this.size.y / 2;
         this.velocity.y = 0;
         this.land();
+        this.groundedFriction = b.friction;
     } else {
         if (collision.normal.y < -0.9) { // Bottom face collision, snap to bottom
             currentPos.y = collision.position.y - this.size.y / 2;

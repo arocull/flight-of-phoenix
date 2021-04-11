@@ -18,7 +18,8 @@ let render;
  * @summary Background props used solely for visuals
 */
 const background = [];
-/** @type {Prop[]}
+/**
+ * @type {Prop[]}
  * @summary Static props in foreground that can be collided with
  */
 const props = [];
@@ -43,6 +44,7 @@ function doFrame(newTime) {
 
 
     // GAME LOOP //
+    CONTROLS_apply();
     PHYSICS_tick(deltaTime, dynamics, props);
 
     // DRAWING //

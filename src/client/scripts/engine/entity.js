@@ -77,6 +77,8 @@ Entity.prototype.move = function(dir) {
  * @summary Ticks entity movement, updates force application and manages air control
  */
 Entity.prototype.tickMovement = function() {
+    if (this.grounded) this.jumpsUsed = 0;
+
     if (this.goalDir.length() > 0.1) {
         if (this.grounded) { // Grounded movement
             this.addForce("EntityMotion", this.goalDir.multiply(this.moveForce), 0.2);

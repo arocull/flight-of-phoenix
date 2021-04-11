@@ -36,8 +36,27 @@ function PHYSICS_tick(delta, dynamics, statics) {
         obj.velocity.y -= PHYSICS_gravity * delta;
         obj.grounded = false;
 
+        // Apply friction
+        if (wasGrounded) {
+            const veloX = Math.abs(obj.velocity.x);
+            let fricForce = Math.max(10 - Math.log(3 * veloX + 1), 0)  * ((obj.groundedFriction + obj.friction ) / 2) * delta;
+            if (obj instanceof Entity && !obj.getForce("EntityMotion")) { // Entities should have more slowdown when not moving
+                fricForce *= 3;
+            }
+            const newVelo = Math.max(Math.abs(veloX - fricForce), 0);
+            obj.velocity.x = newVelo * Math.sign(obj.velocity.x);
+        }
+
+        let deltaPos = obj.velocity.multiply(delta);
+        if (obj.terminalVelocity > 0 && Math.abs(deltaPos.x) > obj.terminalVelocity * delta) {
+            deltaPos.x = obj.terminalVelocity * Math.sign(deltaPos.x) * delta;
+            obj.velocity.x = obj.terminalVelocity * Math.sign(obj.velocity.x);
+        }
+        // deltaPos.clamp(obj.terminalVelocity * delta, obj.terminalVelocity * delta);
+        // obj.velocity.clamp(obj.terminalVelocity, obj.terminalVelocity);
+
         // Estimate new position
-        obj.position = obj.position.add(obj.velocity.multiply(delta));
+        obj.position = obj.position.add(deltaPos);
     }
 
 

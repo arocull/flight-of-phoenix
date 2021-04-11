@@ -8,13 +8,15 @@
  * @param {boolean} collidable If true, physics props can collide with this object
  */
 function Prop(position, size, collidable = true) {
+    /** @type {Vector} */
     this.position = position;
+    /** @type {Vector} */
     this.size = size;
     this.radius = size.length() / 2;
     this.collidable = collidable;
 
     this.elasticity = 0.1;
-    this.friction = 0.5;
+    this.friction = 0.9;
 
     /** @description Animation only, will draw sprite backwards if true */
     this.flipped = false;
