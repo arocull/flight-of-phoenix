@@ -109,7 +109,7 @@ PhysProp.prototype.addForce = function(forceName, forceVector, forceDuration) {
  * @param {string} forceName Label of force to remove
 */
 PhysProp.prototype.removeForce = function(forceName) {
-    this.forces.remove(forceName);
+    this.forces.delete(forceName);
 }
 
 /**

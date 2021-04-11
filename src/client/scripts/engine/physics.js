@@ -2,7 +2,7 @@
 // This is essentially a static class
 
 // Gravity constant, though modifiable
-let PHYSICS_gravity = 30;
+let PHYSICS_gravity = 50;
 
 function PHYSICS_INTERNAL_propTrace() {
 
@@ -22,6 +22,10 @@ function PHYSICS_tick(delta, dynamics, statics) {
     for (let i = 0; i < dynamics.length; i++) {
         const obj = dynamics[i];
         const wasGrounded = obj.grounded;
+
+        if (obj instanceof Entity) { // Update entity movement
+            obj.tickMovement();
+        }
 
         obj.lastPosition = obj.position;
 

@@ -148,4 +148,14 @@ Prop.prototype.tickAnimation = function(DeltaTime) {
     // Does nothing by default
 }
 
+/**
+ * @function tick
+ * @summary Ticks this prop by the given amount of time
+ * @description Does nothing by default--override in inherited objects
+ * @param {number} DeltaTime Change in time since last frame
+ */
+Prop.prototype.tick = function(DeltaTime) {
+
+}
+
 console.log("Module PROP loaded");
