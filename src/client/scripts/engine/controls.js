@@ -11,6 +11,11 @@ let CONTROLS_rightPressed = false;
 let CONTROLS_leftPressed = false;
 let CONTROLS_waitForUpLetGo = false;
 
+/** @description DEBUG TOOL, set this to true to enable frame advance (press F to move onto the next frame) */
+let enableFrameAdvance = false;
+let CONTROLS_frameAdvance = false;
+let CONTROLS_frameAdvanceToggle = false;
+
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'ArrowUp':
@@ -30,10 +35,18 @@ document.addEventListener('keydown', (event) => {
         case 'a':
             CONTROLS_leftPressed = true;
             break;
+        // DEBUG TOOLS //
+        case 'f':
+            CONTROLS_frameAdvance = true;
+            break;
+        case 'g':
+            CONTROLS_frameAdvanceToggle = !CONTROLS_frameAdvanceToggle;
+            break;
         default: break;
     }
 });
 document.addEventListener('keyup', (event) => {
+    CONSTROLS_shiftHeld = event.shiftKey;
     switch (event.key) {
         case 'ArrowUp':
         case 'w':
@@ -56,6 +69,11 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
+/**
+ * @function CONTROLS_apply
+ * @summary Applies the currently pressed controls to the character
+ * @returns {boolean} Returns true if the engine should not tick this frame
+ */
 function CONTROLS_apply() {
     CONTROLS_dir.x = CONTROLS_rightPressed - CONTROLS_leftPressed;
     CONTROLS_dir.y = 0;
@@ -68,6 +86,13 @@ function CONTROLS_apply() {
     } else if (!CONTROLS_upPressed) {
         CONTROLS_waitForUpLetGo = false;
     }
+
+    if (enableFrameAdvance) {
+        const doAdvanceFrame = (CONTROLS_frameAdvance || CONTROLS_frameAdvanceToggle);
+        CONTROLS_frameAdvance = false; // Disable immeadietly
+        return !doAdvanceFrame;
+    }
+    return false;
 }
 
 

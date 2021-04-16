@@ -44,7 +44,8 @@ function doFrame(newTime) {
 
 
     // GAME LOOP //
-    CONTROLS_apply();
+    const skipTick = CONTROLS_apply();
+    if (skipTick) return window.requestAnimationFrame(doFrame);
     PHYSICS_tick(deltaTime, dynamics, props);
 
     // DRAWING //
