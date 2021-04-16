@@ -105,6 +105,10 @@ function RayBox(start, end, dimensions) {
     this.startOrigin = start;
     this.endOrigin = end;
 
+    const dir = end.subtract(start);
+    this.length = dir.length();
+    this.direction = dir.unit();
+
     const topRight = new Vector(dimensions.x / 2, dimensions.y / 2); // Declare once so we don't have to keep dividing dimensions
     this.offsets = [
         topRight,
@@ -114,18 +118,20 @@ function RayBox(start, end, dimensions) {
         new Vector(0, 0), // Also do center position, just in case
     ];
 
+    this.offsets[0].y -= 0.001;  // Offset top trace starts slightly downward so they do not stick to ceilings
+    this.offsets[1].y -= 0.001;
+
     // Pre-compute start and end positions for all four corners
     this.starts = [];
     this.ends = [];
     for (let i = 0; i < 5; i++) {
-        this.starts.push(start.add(this.offsets[i]));
+        this.starts.push(
+            start.add(
+                this.offsets[i] // Offset by cube position
+            )
+        );
         this.ends.push(end.add(this.offsets[i]));
     }
-
-
-    const dir = end.subtract(start);
-    this.length = dir.length();
-    this.direction = dir.unit();
 }
 
 // Inherit Prop prototype

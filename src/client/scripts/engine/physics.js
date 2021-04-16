@@ -7,6 +7,16 @@ let PHYSICS_gravity = 50;
 function PHYSICS_INTERNAL_propTrace() {
 
 }
+/**
+ * @function PHYSICS_INTERNAL_sortCollision
+ * @summary Compares two TraceResult lengths
+ * @param {TraceResult} a Result A
+ * @param {TraceResult} b Result B
+ * @returns {number}
+ */
+function PHYSICS_INTERNAL_sortCollision(a, b) {
+    return b.length - a.length;
+}
 
 /**
  * @function PHYSICS_tick
@@ -66,25 +76,30 @@ function PHYSICS_tick(delta, dynamics, statics) {
         const obj = dynamics[i];
         const rayCenter = new RayBox(obj.lastPosition, obj.position, obj.size);
 
-        // Get trace result with closest distance
-        let closest = 10000;
-        /** @type {TraceResult} */
-        let closestResult = undefined;
+        /** @type {TraceResult[]} */
+        let results = [];
         
         for (let x = 0; x < statics.length; x++) {
-            const result = statics[x].trace(rayCenter, true, 0);
-            if (result.collided && result.distance < closest) {
-                closestResult = result;
-                closest = result.distance;
+            const result = statics[x].trace(rayCenter, false, 0);
+            if (result.collided) {
+                results.push(result);
             }
         }
 
-        if (closestResult && closestResult.hitInfo) {
+        // Sort collisions from furthest to closest
+        results.sort(PHYSICS_INTERNAL_sortCollision);
+
+        // Perform collisions furthest to closest
+        for (let x = 0; x < results.length; x++) {
+            obj.position = obj.collide(results[x], results[x].hitInfo, obj.position);
+        }
+
+        /*if (closestResult && closestResult.hitInfo) {
             const collidedWith = closestResult.hitInfo;
             obj.position = obj.collide(closestResult, collidedWith, obj.position);
             //console.log(closestResult);
             //console.log(rayCenter);
-        }
+        }*/
 
         // Finally, apply new position
         // obj.position = newPos;
