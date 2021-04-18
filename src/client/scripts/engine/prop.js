@@ -27,6 +27,8 @@ function Prop(position, size, collidable = true) {
     this.spriteWidth = 512;
     /** @description Sprite height, used for animation */
     this.spriteHeight = 512;
+    /** @description Sprite upscale */
+    this.spriteUpscale = 1;
     /** @description Set to true if this sprite should use SpriteWidth + SpriteHeight */
     this.animated = false;
     /** @description Row of sprite to draw for animation */

@@ -29,6 +29,60 @@ const props = [];
 */
 const dynamics = [];
 
+/**
+ * @type {Level}
+ * @summary Level data
+ */
+let level = undefined;
+
+
+/**
+ * @function ENGINE_INTERNAL_reset
+ * @summary Resets the level
+ * @param {boolean} clearBackground If true, deletes background objects as well
+ */
+function ENGINE_INTERNAL_reset(clearBackground) {
+    if (clearBackground) {
+        background.splice(0, background.length);
+    }
+    props.splice(0, props.length);
+    dynamics.splice(0, dynamics.length);
+
+    if (level) {
+        level.runTime = 0;
+        level.setup(); // Call setup again to reload level
+
+        ENGINE_INTERNAL_spawnPlayer(level.startPosition);
+    }
+}
+/**
+ * @function ENGINE_INTERNAL_spawnPlayer
+ * @summary Spawns the player
+ * @param {Vector} spawnPos Where to spawn the player
+ */
+function ENGINE_INTERNAL_spawnPlayer(spawnPos) {
+    player = new Entity(spawnPos, new Vector(2, 2), 10, 1, 30, 500, 0.5);
+    player.friction = 0.9;
+    player.jumpsMax = 2;
+    player.terminalVelocity = 15;
+
+    //player.sprite = new Image(5120, 3072);
+    //player.sprite.src = "images/Flamingo.png";
+    //player.spriteUpscale = 1.2;
+    player.animated = true;
+
+    dynamics.push(player);
+}
+
+function ENGINE_start(startLevel) {
+    level = startLevel;
+    level.setup(); // Call setup again to reload level
+    ENGINE_INTERNAL_spawnPlayer(level.startPosition);
+    console.log("Staring level!", startLevel);
+}
+
+
+
 // GAME LOOP //
 let lastTime = 0;
 function doFrame(newTime) {
@@ -46,6 +100,9 @@ function doFrame(newTime) {
     // GAME LOOP //
     const skipTick = CONTROLS_apply();
     if (skipTick) return window.requestAnimationFrame(doFrame);
+
+    if (level) level.tick(deltaTime); // Tick level if present
+
     PHYSICS_tick(deltaTime, dynamics, props);
 
     // DRAWING //
@@ -66,6 +123,17 @@ function doFrame(newTime) {
     // Draw physics props
     for (let i = 0; i < dynamics.length; i++) {
         render.drawProp(dynamics[i]);
+    }
+
+    // Kill player if they fall below the bottom visual
+    if (player.position.y + player.size.y / 2 <= 0) {
+        player.hp = 0;
+    }
+    // Reset level if player dies
+    if (player && player.hp <= 0) {
+        ENGINE_INTERNAL_reset(false);
+        if (level) {
+        }
     }
 
 
