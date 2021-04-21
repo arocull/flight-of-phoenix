@@ -44,15 +44,15 @@ Ray.prototype.clone = function() {
 }
 
 /**
- * @function tracePlane
- * @summary Performs a 2D ray trace on the given plane information
+ * @function tracePlaneSingle
+ * @summary Performs a 2D ray trace on the given plane information (BUT RETURNS SINGLE OBJECT, NOT ARRAY)
  * @param {Vector} center Center point of plane 
  * @param {Vector} normal Normalized direction the surface is facing
  * @param {boolean} dualSided If this is true, traces from either side of the normal are valid 
  * @param {number} radiusBoost Adds to the maximum check distance
- * @returns {TraceResult} TraceResult
+ * @returns {TraceResult} TraceResult (SINGLE OBJECT)
  */
-Ray.prototype.tracePlane = function(center, normal, dualSided = false, radiusBoost = 0) {
+Ray.prototype.tracePlaneSingle = function(center, normal, dualSided = false, radiusBoost = 0) {
     const result = new TraceResult();
 
     // Default result values (in case there is no hit)
@@ -73,6 +73,18 @@ Ray.prototype.tracePlane = function(center, normal, dualSided = false, radiusBoo
     }
 
     return result;
+}
+/**
+ * @function tracePlane
+ * @summary Performs a 2D ray trace on the given plane information
+ * @param {Vector} center Center point of plane 
+ * @param {Vector} normal Normalized direction the surface is facing
+ * @param {boolean} dualSided If this is true, traces from either side of the normal are valid 
+ * @param {number} radiusBoost Adds to the maximum check distance
+ * @returns {TraceResult[]} TraceResult (ARRAY)
+ */
+Ray.prototype.tracePlane = function(center, normal, dualSided = false, radiusBoost = 0) {
+    return [this.tracePlaneSingle(center, normal, dualSided, radiusBoost)];
 }
 /**
  * @function pointDistance
@@ -137,7 +149,6 @@ function RayBox(start, end, dimensions) {
 // Inherit Prop prototype
 RayBox.prototype = new Ray(new Vector(), new Vector());
 RayBox.prototype.constructor = RayBox;
-RayBox.prototype._super_tracePlane = Ray.prototype.tracePlane; // Hold onto plane-trace function
 
 /**
  * @function tracePlane
@@ -146,11 +157,11 @@ RayBox.prototype._super_tracePlane = Ray.prototype.tracePlane; // Hold onto plan
  * @param {Vector} normal Normalized direction the surface is facing
  * @param {boolean} dualSided If this is true, traces from either side of the normal are valid 
  * @param {number} radiusBoost Adds to the maximum check distance
- * @returns {TraceResult} TraceResult
+ * @returns {TraceResult[]} TraceResult
  */
 RayBox.prototype.tracePlane = function(center, normal, dualSided = false, radiusBoost = 0) {
-    /** @type {TraceResult} */
-    let currentResult = undefined;
+    /** @type {TraceResult[]} */
+    let results = [];
 
     for (let i = 0; i < 5; i++) {
         // Update start and end variables for current corner so we can use inherited trace function
@@ -158,18 +169,16 @@ RayBox.prototype.tracePlane = function(center, normal, dualSided = false, radius
         this.end = this.ends[i];
         
         // Trace the plane from this box corner
-        const lastResult = this._super_tracePlane(center, normal, dualSided, radiusBoost);
+        const lastResult = this.tracePlaneSingle(center, normal, dualSided, radiusBoost);
 
-        //lastResult.position = lastResult.position.subtract(this.offsets[i]); // Recenter box to original position
-        //lastResult.distance = (this.startOrigin.subtract(lastResult.position)).length(); // Get distance to result from current position
-
-        // If there is no existing result, or the calculated result is closer and has collided, use it
-        if (currentResult == undefined || (lastResult.distance < currentResult.distance && lastResult.collided)) {
-            currentResult = lastResult;
-        }
+        // Add trace result to list
+        // Normally I tried filtering for the closest result here, but that led to issues
+        // What if the closest trace result hit the plane, but not the object (since planes are infinite)?
+        results.push(lastResult);
     }
 
-    return currentResult;
+    // Return trace result array
+    return results;
 }
 
 console.log("Module RAY loaded");

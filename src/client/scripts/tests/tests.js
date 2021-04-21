@@ -28,3 +28,22 @@ console.log(prop.trace(ray2, false, 0));
 console.log(prop.trace(ray2, false, 3));
 console.log(prop.trace(ray3, false, 0));
 console.log(prop.trace(ray3, true, 0));
+
+
+console.log('More prop ray traces (hit top left, hit bottom right, hit bottom');
+const ray4 = new Ray(new Vector(-10, 3.5), new Vector(10, 3.5));
+const ray5 = new Ray(new Vector(10, -3.5), new Vector(-10, -3.5));
+console.log(prop.trace(ray4, false, 0));
+console.log(prop.trace(ray5, false, 0));
+
+
+console.log('\n\nBOX ray traces (hit top left, hit bottom right, hit bottom\n\n');
+const ray6 = new RayBox(new Vector(-10, 3.5), new Vector(10, 3.5), new Vector(1.2, 1.2));
+const ray7 = new RayBox(new Vector(10, -3.5), new Vector(-10, -3.5), new Vector(1.2, 1.2));
+
+console.log('\n\n RESULT A: ', ray6);
+const boxTraceA = prop.trace(ray6, false, 0.01);
+console.log('Final ', boxTraceA);
+console.log('\n\n RESULT B:', ray7);
+const boxTraceB = prop.trace(ray7, true, 0);
+console.log('Final ', boxTraceB);

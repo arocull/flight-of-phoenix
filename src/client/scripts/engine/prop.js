@@ -113,34 +113,57 @@ Prop.prototype.getPlaneCenter = function(xDirection, yDirection) {
 Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
 
     // Trace top side of object
-    const topTrace = ray.tracePlane(this.getPlaneCenter(0, 1), EVectorDirection.up, dualSided, radiusBoost);
-    if (topTrace.collided && this.isPointInside(topTrace.position, radiusBoost)) {
-        topTrace.hitInfo = this;
+    const topTrace = this.handlePlaneTrace(ray, EVectorDirection.up, dualSided, radiusBoost);
+    if (topTrace) {
         topTrace.topFaceCollision = true;
         return topTrace;
     }
 
-    const leftTrace = ray.tracePlane(this.getPlaneCenter(-1, 0), EVectorDirection.left, dualSided, radiusBoost);
-    if (leftTrace.collided && this.isPointInside(leftTrace.position, radiusBoost)) {
-        leftTrace.hitInfo = this;
-        return leftTrace;
-    }
+    const leftTrace = this.handlePlaneTrace(ray, EVectorDirection.left, dualSided, radiusBoost);
+    if (leftTrace) { return leftTrace; }
 
-    const rightTrace = ray.tracePlane(this.getPlaneCenter(1, 0), EVectorDirection.right, dualSided, radiusBoost);
-    if (rightTrace.collided && this.isPointInside(rightTrace.position, radiusBoost)) {
-        rightTrace.hitInfo = this;
-        return rightTrace;
-    }
+    const rightTrace = this.handlePlaneTrace(ray, EVectorDirection.right, dualSided, radiusBoost);
+    if (rightTrace) { return rightTrace; }
 
-    const botTrace = ray.tracePlane(this.getPlaneCenter(0, -1), EVectorDirection.down, dualSided, radiusBoost);
-    if (botTrace.collided && this.isPointInside(botTrace.position, radiusBoost)) {
-        botTrace.hitInfo = this;
-        return botTrace;
-    }
-
+    const botTrace = this.handlePlaneTrace(ray, EVectorDirection.down, dualSided, radiusBoost);
+    if (botTrace) { return botTrace; }
 
     return new TraceResult(); // Nothing collided
 }
+/**
+ * @function handlePlaneTrace
+ * @summary Helper function for trace function
+ * @description Traces the current object with the given ray and returns either a TraceResult or null
+ * @param {Ray} ray Ray to perform trace with, can be a regular Ray, or a RayBox
+ * @param {Vector} dir Plane surface normal direction (gets plane center using this automatically)
+ * @param {boolean} dualSided Is this a trace with dual-sided normals?
+ * @param {number} radiusBoost Numeric boost to trace radius
+ */
+Prop.prototype.handlePlaneTrace = function(ray, dir, dualSided, radiusBoost) {
+    // Gather all trace results--we get multiple because a RayBox can result in multiple trace results
+    const traces = ray.tracePlane(this.getPlaneCenter(dir.x, dir.y), dir, dualSided, radiusBoost);
+    
+    // We want to find the closest result that hit this object
+    let finalTrace = undefined;
+    for (let i = 0; i < traces.length; i++) {
+        const trace = traces[i];
+
+        if (trace.collided && this.isPointInside(trace.position, radiusBoost)) {
+            if (finalTrace === undefined) { // If no final trace has been selected, select this trace since it actually hit the object
+                finalTrace = trace;
+            } else if (trace.distance < finalTrace.distance) { // If this collision was closer, use this collision instead!
+                finalTrace = trace;
+            }
+        }
+    }
+
+    if (finalTrace) { // If the trace hit this object, default hitInfo to this object
+        finalTrace.hitInfo = this;
+    }
+
+    return finalTrace;
+}
+
 
 /**
  * @function tickAnimation
