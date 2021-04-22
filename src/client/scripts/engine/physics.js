@@ -2,7 +2,8 @@
 // This is essentially a static class
 
 // Gravity constant, though modifiable
-let PHYSICS_gravity = 50;
+let PHYSICS_gravity = 70;
+let PHYSICS_friction = 100;
 
 function PHYSICS_INTERNAL_propTrace() {
 
@@ -48,22 +49,33 @@ function PHYSICS_tick(delta, dynamics, statics) {
 
         // Apply friction
         if (wasGrounded) {
-            const veloX = Math.abs(obj.velocity.x);
-            let fricForce = Math.max(10 - Math.log(3 * veloX + 1), 0)  * ((obj.groundedFriction + obj.friction ) / 2) * delta;
-            if (obj instanceof Entity && !obj.getForce("EntityMotion")) { // Entities should have more slowdown when not moving
-                fricForce *= 3;
+            const veloX = Math.abs(obj.velocity.x); // Get horizontal speed
+
+            // Get frictional force
+            let fricForce = Math.max(2 - Math.log(veloX + 1), 0.6);
+
+            // Apply friction as an acceleration
+            let fricAccel = fricForce * PHYSICS_friction * delta * ((obj.groundedFriction + obj.friction) / 2);
+
+            // Make sure change in velocity by friction isn't any greater than velocity itself
+            if (fricAccel > veloX) fricAccel = veloX;
+
+            // Give slight acceleration boost to player if they are trying to move from a low velocity
+            if (fricForce > 1 && obj instanceof Entity && obj.getForce("EntityMotion")) {
+                fricAccel *= Math.max(1 - fricForce * 2, 0);
             }
-            const newVelo = Math.max(Math.abs(veloX - fricForce), 0);
-            obj.velocity.x = newVelo * Math.sign(obj.velocity.x);
+
+
+            // Apply friction to velocity
+            obj.velocity.x -= fricAccel * Math.sign(obj.velocity.x);
         }
 
-        let deltaPos = obj.velocity.multiply(delta);
-        if (obj.terminalVelocity > 0 && Math.abs(deltaPos.x) > obj.terminalVelocity * delta) {
+        let deltaPos = obj.velocity.multiply(delta); // Get change in position
+        if (obj.terminalVelocity > 0 && Math.abs(deltaPos.x) > obj.terminalVelocity * delta) { // If object has a terminal velocity...
+            // Clamp horizontal velocity and position to fit it
             deltaPos.x = obj.terminalVelocity * Math.sign(deltaPos.x) * delta;
             obj.velocity.x = obj.terminalVelocity * Math.sign(obj.velocity.x);
         }
-        // deltaPos.clamp(obj.terminalVelocity * delta, obj.terminalVelocity * delta);
-        // obj.velocity.clamp(obj.terminalVelocity, obj.terminalVelocity);
 
         // Estimate new position
         obj.position = obj.position.add(deltaPos);
@@ -93,16 +105,6 @@ function PHYSICS_tick(delta, dynamics, statics) {
         for (let x = 0; x < results.length; x++) {
             obj.position = obj.collide(results[x], results[x].hitInfo, obj.position);
         }
-
-        /*if (closestResult && closestResult.hitInfo) {
-            const collidedWith = closestResult.hitInfo;
-            obj.position = obj.collide(closestResult, collidedWith, obj.position);
-            //console.log(closestResult);
-            //console.log(rayCenter);
-        }*/
-
-        // Finally, apply new position
-        // obj.position = newPos;
     }
 }
 
