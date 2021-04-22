@@ -158,6 +158,8 @@ PhysProp.prototype.collide = function(collision, b, currentPos) {
         );
     }
 
+    b.onHit(this);
+
     return currentPos;
 }
 

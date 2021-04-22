@@ -185,4 +185,13 @@ Prop.prototype.tick = function(DeltaTime) {
 
 }
 
+/**
+ * @function onHit
+ * @summary Performs a function after another object collides into this object
+ * @param {Prop} hit Other prop that hit this one
+ */
+Prop.prototype.onHit = function(hit) {
+
+}
+
 console.log("Module PROP loaded");

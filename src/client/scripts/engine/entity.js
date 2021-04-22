@@ -1,6 +1,7 @@
 /**
  * @name Entity
  * @class
+ * @inheritdoc
  * @summary Physics Prop with health properties, terminal velocity, and controllers
  * @param {Vector} position Position of object
  * @param {Vector} size Size of object
@@ -88,6 +89,21 @@ Entity.prototype.tickMovement = function() {
     } else {
         this.removeForce("EntityMotion"); // Stop force application
     }
+}
+
+/**
+ * @function takeDamage
+ * @summary Deals damage and knockback to this entity
+ * @param {number} damage Damage this entity takes
+ * @param {Vector} knockback Knockback to apply to this entity
+ * @param {Prop} source Source of the damage
+ * @returns {boolean} Returns true if the entity is killed, otherwise false
+ */
+Entity.prototype.takeDamage = function(damage, knockback, source) {
+    this.hp -= damage;
+    this.velocity = this.velocity.add(knockback);
+
+    return (this.hp <= 0);
 }
 
 console.log("Module ENTITY loaded");
