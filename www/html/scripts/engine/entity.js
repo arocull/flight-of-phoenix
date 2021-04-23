@@ -49,6 +49,8 @@ Entity.prototype.doJump = function(groundedJump) {
  * @summary Attempts to perform a jump off the ground, or a double jump.
  */
 Entity.prototype.jump = function() {
+    if (this.hp <= 0) return; // Don't jump if dead
+
     if (this.grounded) {
         this.doJump(true);
     } else if (this.jumpsUsed < this.jumpsMax) {
@@ -80,7 +82,7 @@ Entity.prototype.move = function(dir) {
 Entity.prototype.tickMovement = function() {
     if (this.grounded) this.jumpsUsed = 0;
 
-    if (this.goalDir.length() > 0.1) {
+    if (this.goalDir.length() > 0.1 && this.hp > 0) { // If movement is inputted, apply it (unless dead)
         if (this.grounded) { // Grounded movement
             this.addForce("EntityMotion", this.goalDir.multiply(this.moveForce), 0.2);
         } else { // Air movement

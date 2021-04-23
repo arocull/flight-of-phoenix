@@ -124,6 +124,15 @@ Vector.prototype.divideV = function VectorDivideV(b) {
 Vector.prototype.divide = function VectorDivide(b) {
     return new Vector(this.x / b, this.y / b);
 }
+/**
+ * @function VectorLerp
+ * @summary Interpolates between vectors A and B by alpha percentage
+ * @param {Vector} b Interpolation goal
+ * @param {number} a Alpha--number between 0 and 1
+ */
+Vector.prototype.lerp = function VectorLerp(b, alpha) {
+    return new Vector(this.x * (1 - alpha) + b.x * alpha, this.y * (1 - alpha) + b.y * alpha);
+}
 
 
 // ALGEBRAIC //

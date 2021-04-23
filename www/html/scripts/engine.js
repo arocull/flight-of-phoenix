@@ -105,11 +105,37 @@ function doFrame(newTime) {
 
     PHYSICS_tick(deltaTime, dynamics, props);
 
+
+    // Kill player if they fall below the bottom visual
+    if (player && player.position.y + player.size.y / 2 <= 0) {
+        player.hp = 0;
+    }
+    // Reset level if player dies
+    if (player && player.hp <= 0) {
+        player = null; // Remove player so we do not trigger death again
+        render.setScreenWipe(new Vector(0, -1));
+        
+        // Reset level halfway through screen wipe effect (to hide teleporting)
+        setTimeout(() => {
+            ENGINE_INTERNAL_reset(false);
+
+            if (level) {
+            
+            }
+        }, 400);  
+    }
+
+
     // DRAWING //
 
     // Update Frame Size by changing canvas height to stay proportional with width
     // Also update drawing proportions
     render.updateScaling();
+    if (level) {
+        render.clearFrame(level.backgroundColor)
+    } else {
+        render.clearFrame('#aaaabb');
+    }
 
 
     // Draw background props
@@ -125,16 +151,9 @@ function doFrame(newTime) {
         render.drawProp(dynamics[i]);
     }
 
-    // Kill player if they fall below the bottom visual
-    if (player.position.y + player.size.y / 2 <= 0) {
-        player.hp = 0;
-    }
-    // Reset level if player dies
-    if (player && player.hp <= 0) {
-        ENGINE_INTERNAL_reset(false);
-        if (level) {
-        }
-    }
+
+    // Tick screen wipe
+    render.tickScreenWipe(deltaTime);
 
 
     return window.requestAnimationFrame(doFrame);

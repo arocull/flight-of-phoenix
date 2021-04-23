@@ -20,6 +20,14 @@ function Render(canvas, aspect = 0.5, unitsWidth = 15) {
     this.maxHeight = this.maxWidth * this.aspectRatio;
     this.scaling = 1;
 
+    this.screenWipeImage = new Image(1750, 1000);
+    this.screenWipeImage.src = 'images/effects/screen_wipe.png';
+    this.screenWipeImage.alt = '';
+
+    this.screenWipeStart = new Vector(1, 1);
+    this.screenWipeEnd = new Vector(-1, -1);
+    this.screenWipeTimer = 0;
+
     this.updateScaling();
 }
 
@@ -60,9 +68,15 @@ Render.prototype.getDrawSize = function(size) {
 
 
 // DRAWING //
-Render.prototype.clearFrame = function() {
-    this.context.fillStyle = '#000000';
-    this.context.clearRect(0, 0, canvas.width, canvas.height);
+/**
+ * @function clearFrame
+ * @summary Draws over entire frame with a solid color
+ * @param {String} color Background color to clear to
+ */
+Render.prototype.clearFrame = function(color) {
+    this.context.fillStyle = color;
+    // this.context.clearRect(0, 0, canvas.width, canvas.height);
+    this.context.fillRect(0, 0, canvas.width, canvas.height);
 }
 /**
  * @function drawProp
@@ -85,6 +99,33 @@ Render.prototype.drawProp = function(obj) {
     } else { // Draw placeholder rectangle
         this.context.fillStyle = '#999999';
         this.context.fillRect(pos.x, pos.y, size.x, size.y);
+    }
+}
+
+
+// EFFECTS //
+/**
+ * @function setScreenWipe
+ * @summary Set screen wipe position, in screen widths x screen heights. End position automatically determined
+ * @param {Vector} newPos Start position of screen wipe
+ */
+Render.prototype.setScreenWipe = function(newPos) {
+    this.screenWipeStart = newPos;
+    this.screenWipeEnd = newPos.multiply(-1);
+    this.screenWipeTimer = 1;
+}
+Render.prototype.tickScreenWipe = function(delta) {
+    if (this.screenWipeTimer > 0) {
+        this.screenWipeTimer -= delta * 0.95;
+
+        const pos = this.screenWipeStart.lerp(this.screenWipeEnd, 1 - this.screenWipeTimer);
+
+        const wid = this.canvas.width * 1.1666 * 1.25;
+        const widOffset = (wid - this.canvas.width) / 2;
+        const hei = this.canvas.height * 1.3333 * 1.25;
+        const heiOffset = (hei - this.canvas.height) / 2;
+
+        this.context.drawImage(this.screenWipeImage, pos.x * wid - widOffset, pos.y * hei - heiOffset, wid, hei);
     }
 }
 

@@ -9,6 +9,8 @@ function Level(playerStartPos, objectivePos) {
     this.startPosition = playerStartPos;
     this.endPosition = objectivePos;
 
+    this.backgroundColor = '#aaddff';
+
     /**
      * @type {Level}
      * @summary New level to progress to once this one has been beaten
