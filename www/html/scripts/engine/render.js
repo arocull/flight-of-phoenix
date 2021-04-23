@@ -93,9 +93,22 @@ Render.prototype.drawProp = function(obj) {
         // ^ Pick row--each row has a flipped variant immediately after it, so we need to double the row position
         // Bools act as 1 or 0 in math operations, so we can easily get the flipped row position this way
 
-        this.context.drawImage(obj.sprite, framePosX, framePosY, obj.spriteWidth, obj.spriteHeight, pos.x, pos.y, size.x, size.y)
+        const xOffset = (1 - obj.spriteUpscale) * size.x;
+        const yOffset = (1 - obj.spriteUpscale) * size.y;
+
+        this.context.drawImage(obj.sprite,
+            framePosX, framePosY, obj.spriteWidth, obj.spriteHeight, // Source positions, width, and height
+            pos.x + xOffset, pos.y + yOffset, // Draw position
+            size.x * obj.spriteUpscale, size.y * obj.spriteUpscale // Draw width + height
+        );
     } else if (obj.sprite) { // Draw full sprite
-        this.context.drawImage(obj.sprite, pos.x, pos.y, size.x, size.y);
+        const xOffset = (1 - obj.spriteUpscale) * size.x / 2;
+        const yOffset = (1 - obj.spriteUpscale) * size.y / 2;
+
+        this.context.drawImage(obj.sprite,
+            pos.x + xOffset, pos.y + yOffset, // Draw position
+            size.x * obj.spriteUpscale, size.y * obj.spriteUpscale // Draw width + height
+        );
     } else { // Draw placeholder rectangle
         this.context.fillStyle = '#999999';
         this.context.fillRect(pos.x, pos.y, size.x, size.y);

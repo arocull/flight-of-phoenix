@@ -103,11 +103,20 @@ function doFrame(newTime) {
 
     if (level) level.tick(deltaTime); // Tick level if present
 
+    // Process object ticks
+    for (let i = 0; i < props.length; i++) {
+        props[i].tick(deltaTime);
+    }
+    for (let i = 0; i < dynamics.length; i++) {
+        dynamics[i].tick(deltaTime);
+    }
+
+    // Finally, do physics
     PHYSICS_tick(deltaTime, dynamics, props);
 
 
     // Kill player if they fall below the bottom visual
-    if (player && player.position.y + player.size.y / 2 <= 0) {
+    if (player && player.position.y + player.size.y / 2 <= -0.5) {
         player.hp = 0;
     }
     // Reset level if player dies
