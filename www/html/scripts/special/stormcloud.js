@@ -24,6 +24,7 @@ function OStormCloud(position, timeOffset = Math.random()) {
     this.animationTimer = timeOffset;
 
     this.spriteUpscale = 1.2;
+    this.spriteUpscaleBase = this.spriteUpscale;
     this.sprite = TEXTURE_StormCloud; // Use pre-loaded asset
 
     /**
@@ -39,7 +40,7 @@ function OStormCloud(position, timeOffset = Math.random()) {
     this.active = true;
 }
 
-OStormCloud.prototype = new Obstacle(new Vector(), new Vector(4.25, 3));
+OStormCloud.prototype = new Obstacle(new Vector(), new Vector(3, 2.5));
 OStormCloud.prototype.constructor = OStormCloud;
 OStormCloud.prototype._super_onHit = Obstacle.prototype.onHit; // Store on-hit function since we will be overriding it
 
@@ -62,7 +63,7 @@ OStormCloud.prototype.onHit = function(hit) {
  */
 OStormCloud.prototype.tickAnimation = function(DeltaTime) {
     this.animationTimer += DeltaTime;
-
+    this.spriteUpscale = this.spriteUpscaleBase + Math.cos(this.animationTimer / 1.3) * 0.05;
 }
 
 /**
@@ -74,4 +75,30 @@ OStormCloud.prototype.tickAnimation = function(DeltaTime) {
 OStormCloud.prototype.tick = function(DeltaTime) {
     this.timer += DeltaTime;
     this.position.y = Math.sin(this.timer) * 0.75 + this.basePosition.y;
+
+    if (this.active && player) {
+        const boltEnd = this.position.clone();
+        boltEnd.y -= this.lightningLength * 0.97; // Get position of where the bolt ends
+
+        const leftRayPos = this.position.clone();
+        leftRayPos.x -= this.size / 2;
+        const rightRayPos = this.position.clone();
+        rightRayPos.x += this.size / 2;
+
+        // Form a triangle of rays
+        const rays = [
+            new Ray(leftRayPos, boltEnd),
+            new Ray(this.position, boltEnd),
+            new Ray(rightRayPos, boltEnd),
+        ];
+
+        for (let i = 0; i < rays.length; i++) {
+            const result = player.trace(rays[i], true, 0);
+            if (result && result.collided) {
+                player.velocity = new Vector(0, 0); // Zero out player velocity as a fun effect
+                this.onHit(player); // Play on-hit effect
+                break; // End loop
+            }
+        }
+    }
 }

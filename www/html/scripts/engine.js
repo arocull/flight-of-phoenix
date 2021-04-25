@@ -150,14 +150,17 @@ function doFrame(newTime) {
 
     // Draw background props
     for (let i = 0; i < background.length; i++) {
+        background[i].tickAnimation(deltaTime);
         render.drawProp(background[i]);
     }
     // Draw actual props
     for (let i = 0; i < props.length; i++) {
+        props[i].tickAnimation(deltaTime);
         render.drawProp(props[i]);
     }
     // Draw physics props
     for (let i = 0; i < dynamics.length; i++) {
+        dynamics[i].tickAnimation(deltaTime);
         render.drawProp(dynamics[i]);
     }
 
