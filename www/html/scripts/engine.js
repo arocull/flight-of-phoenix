@@ -61,10 +61,9 @@ function ENGINE_INTERNAL_reset(clearBackground) {
  * @param {Vector} spawnPos Where to spawn the player
  */
 function ENGINE_INTERNAL_spawnPlayer(spawnPos) {
-    player = new Entity(spawnPos, new Vector(2, 2), 10, 1, 30, 1000, 0.8);
+    player = new Entity(spawnPos, new Vector(1.3, 1.3), 10, 1, 20, 10, 900, 0.8);
     player.friction = 0.9;
     player.jumpsMax = 2;
-    player.terminalVelocity = 20;
 
     //player.sprite = new Image(5120, 3072);
     //player.sprite.src = "images/Flamingo.png";
@@ -131,7 +130,7 @@ function doFrame(newTime) {
             if (level) {
             
             }
-        }, 400);  
+        }, 600); 
     }
 
 

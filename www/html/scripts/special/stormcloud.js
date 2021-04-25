@@ -31,7 +31,7 @@ function OStormCloud(position, timeOffset = Math.random()) {
      * @type {number}
      * @description Length of lightning bolt, in engine units (starts from middle of cloud, ends at tip of bolt)
      */
-    this.lightningLength = 5;
+    this.lightningLength = 4;
 
     /**
      * @type {boolean}
@@ -40,7 +40,7 @@ function OStormCloud(position, timeOffset = Math.random()) {
     this.active = true;
 }
 
-OStormCloud.prototype = new Obstacle(new Vector(), new Vector(3, 2.5));
+OStormCloud.prototype = new Obstacle(new Vector(), new Vector(2.5, 2));
 OStormCloud.prototype.constructor = OStormCloud;
 OStormCloud.prototype._super_onHit = Obstacle.prototype.onHit; // Store on-hit function since we will be overriding it
 

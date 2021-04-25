@@ -8,10 +8,11 @@
  * @param {number} mass Mass of object in kilograms
  * @param {number} maxHP Maximum health of object
  * @param {number} jumpVelocity Y velocity set when a jump is performed
+ * @param {number} maxVelocity Maximum horizontal velocity (0 for none)
  * @param {number} moveForce Max force movement can apply to this object
  * @param {number} airControl Proportion of move force that is usable while in the air
  */
-function Entity(position, size, mass, maxHP, jumpVelocity, moveForce, airControl) {
+function Entity(position, size, mass, maxHP, jumpVelocity, maxVelocity, moveForce, airControl) {
     this.position = position;
     this.size = size;
     this.radius = size.length() / 2; // Recalculate radius
@@ -25,6 +26,7 @@ function Entity(position, size, mass, maxHP, jumpVelocity, moveForce, airControl
     this.jumpsMax = 1; // Maximum number of double jumps
     this.jumpsUsed = 0;
     this.jumpVelo = jumpVelocity;
+    this.terminalVelocity = maxVelocity;
     this.moveForce = moveForce;
     this.airControl = airControl;
     this.goalDir = new Vector(0, 0);

@@ -149,8 +149,6 @@ Render.prototype.drawPropSpecificUnderlay = function(obj, pos, size, xOffset, yO
 Render.prototype.drawProp_StormCloud = function(obj, pos, size, xOffset, yOffset) {
     if (!obj.active) return; // Don't draw lightning if cloud is not active
 
-    console.log('Drawing storm cloud thunder');
-
     const lSize = this.getDrawSize(new Vector(obj.size.x, obj.lightningLength));
     pos = pos.clone(); // Don't edit data of original position
     pos.y += size.y / 2; // We want to start drawing from the vertical middle of the cloud
@@ -192,7 +190,7 @@ Render.prototype.drawBackgroundWind = function(delta, windSpeed) {
     this.background_wind_pos -= delta * windSpeed;
     if (this.background_wind_pos <= -2) this.background_wind_pos += 2; // Loop back to beginning
 
-    this.context.globalAlpha = 0.35;
+    this.context.globalAlpha = 0.5;
 
     const twoWidths = this.canvas.width * 2;
 
