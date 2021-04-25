@@ -1,27 +1,81 @@
-* {
-    font-family: Arial, Helvetica, sans-serif;
+/*
+#910A00
+#E35118
+#9CDDE6
+#9FFCED
+#0085AD
+*/
+
+body {
+	height: 100%;
+	background: #910A00;
+	padding: 0;
+	margin: 0;
+	font: 16pt Arial, Helvetica, Sans-Serif;
+	color: #000000;
+	text-align: center;
 }
 
-/* Canvas Element, where game is drawn
-* Note that we do not manage height here.
-* We manage canvas height in engine.js to force
-* a 2:1 aspect ratio (helps keep rendering consistent).
-*/
-canvas {
-    background-color: black;
-    display: block;
-    max-width: 99%;
-    min-width: 200px;
-    width: 90%;
-    margin: auto;
+img {
+	margin: 0.3em;
+	float: right;
+	border-radius: 5px;
+	border: #0085AD;
+	border-width: 2x;
+	border-style: solid;
 }
 
-/* If the user has a wide screen, we limit the game
-* width so the canvas height does not go offscreen.
-*/
-@media (min-width: 90vmax) and (max-height: 40vmax) {
-    canvas {
-        max-width: 95%;
-        width: 90%;
-    }
+.heading {
+	margin: 0.5em auto 0.5em auto;
+	text-align: center;
+	text-align-last: center;
+	font-weight: bold;
+	color: #E35118;
+}
+
+h1 {
+	font-size: 36pt;
+	margin-bottom: 1em;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: 160%;
+	margin: 1em 0;
+	color: #000;
+}
+
+div.container {
+	background-color: #9CDDE6;
+	width: 80%;
+	height: 100%;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em;
+	border-radius: 5px;
+}
+p {
+	text-indent: 1em;
+	text-align: justify;
+	text-align-last: left;
+}
+
+
+.play_button {
+	background-color: #289493;
+	color: white;
+	padding: 0.5em;
+	margin: 0.5em auto 0.5em auto;
+	font-size: 24pt;
+	text-decoration: none;
+	font-weight: bold;
+	text-align: center;
+	text-align-last: center;
+	border-radius: 5px;
+}
+.play_button:hover {
+	color: #dddddd;
+	background-color: #178382;
 }

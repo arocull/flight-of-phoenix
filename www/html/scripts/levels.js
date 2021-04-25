@@ -1,5 +1,7 @@
 // One screen is 50 x 25 engine units
 
+
+// Load in textures for ease of use
 const TEXTURE_cliff_thin_left = new Image(200, 1000);
 TEXTURE_cliff_thin_left.src = 'images/sprites/cliff_thin_left.png';
 const TEXTURE_cliff_thin_right = new Image(200, 1000);
@@ -10,6 +12,8 @@ const TEXTURE_platform_cloud = [
 ];
 TEXTURE_platform_cloud[0].src = 'images/sprites/platform_cloud1.png';
 TEXTURE_platform_cloud[1].src = 'images/sprites/platform_cloud2.png';
+
+
 
 const levelA = new Level(new Vector(2, 15), new Vector(25, 10));
 levelA.backgroundColor = '#5599bb';

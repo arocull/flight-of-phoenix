@@ -119,7 +119,7 @@ Render.prototype.drawProp = function(obj) {
             size.x * obj.spriteUpscale, size.y * obj.spriteUpscale // Draw width + height
         );
     } else { // Draw placeholder rectangle
-        this.context.fillStyle = '#999999';
+        this.context.fillStyle = '#000000';
         this.context.fillRect(pos.x, pos.y, size.x, size.y);
     }
 }
