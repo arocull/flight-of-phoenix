@@ -96,6 +96,8 @@ Render.prototype.drawProp = function(obj) {
         const xOffset = (1 - obj.spriteUpscale) * size.x;
         const yOffset = (1 - obj.spriteUpscale) * size.y;
 
+        this.drawPropSpecificUnderlay(obj, pos, size, xOffset, yOffset);
+
         this.context.drawImage(obj.sprite,
             framePosX, framePosY, obj.spriteWidth, obj.spriteHeight, // Source positions, width, and height
             pos.x + xOffset, pos.y + yOffset, // Draw position
@@ -105,6 +107,8 @@ Render.prototype.drawProp = function(obj) {
         const xOffset = (1 - obj.spriteUpscale) * size.x / 2;
         const yOffset = (1 - obj.spriteUpscale) * size.y / 2;
 
+        this.drawPropSpecificUnderlay(obj, pos, size, xOffset, yOffset);
+
         this.context.drawImage(obj.sprite,
             pos.x + xOffset, pos.y + yOffset, // Draw position
             size.x * obj.spriteUpscale, size.y * obj.spriteUpscale // Draw width + height
@@ -113,6 +117,43 @@ Render.prototype.drawProp = function(obj) {
         this.context.fillStyle = '#999999';
         this.context.fillRect(pos.x, pos.y, size.x, size.y);
     }
+}
+/**
+ * @function drawPropSpecificUnderlay
+ * @summary Helper function. Draws prop-specific underlays in a single call
+ * @param {Prop} obj 
+ * @param {Vector} pos 
+ * @param {Vector} size 
+ * @param {number} xOffset 
+ * @param {number} yOffset 
+ */
+Render.prototype.drawPropSpecificUnderlay = function(obj, pos, size, xOffset, yOffset) {
+    if (obj instanceof OStormCloud) {
+        this.drawProp_StormCloud(obj, pos, size, xOffset, yOffset);
+    }
+}
+
+
+// PROP-SPECIFIC DRAWING //
+/**
+ * 
+ * @param {OStormCloud} obj Storm Cloud object
+ * @param {*} pos 
+ * @param {*} size 
+ */
+Render.prototype.drawProp_StormCloud = function(obj, pos, size, xOffset, yOffset) {
+    if (!obj.active) return; // Don't draw lightning if cloud is not active
+
+    console.log('Drawing storm cloud thunder');
+
+    const lSize = this.getDrawSize(new Vector(obj.size.x, obj.lightningLength));
+    pos = pos.clone(); // Don't edit data of original position
+    pos.y += size.y / 2; // We want to start drawing from the vertical middle of the cloud
+
+    this.context.drawImage(TEXTURE_StormCloudLightning,
+        pos.x + xOffset, pos.y + yOffset, // Draw position
+        lSize.x * obj.spriteUpscale, lSize.y * obj.spriteUpscale // Draw width + height
+    );
 }
 
 

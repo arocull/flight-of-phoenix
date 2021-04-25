@@ -10,9 +10,9 @@
 canvas {
     background-color: black;
     display: block;
-    max-width: 95%;
+    max-width: 99%;
     min-width: 200px;
-    width: 80%;
+    width: 90%;
     margin: auto;
 }
 
@@ -21,7 +21,7 @@ canvas {
 */
 @media (min-width: 90vmax) and (max-height: 40vmax) {
     canvas {
-        max-width: 75%;
-        width: 50%;
+        max-width: 95%;
+        width: 90%;
     }
 }
