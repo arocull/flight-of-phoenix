@@ -9,7 +9,8 @@ function Level(playerStartPos, objectivePos) {
     this.startPosition = playerStartPos;
     this.endPosition = objectivePos;
 
-    this.backgroundColor = '#aaddff';
+    this.backgroundColor = '#99ccee';
+    this.backgroundWindSpeed = 0.05;
 
     /**
      * @type {Level}

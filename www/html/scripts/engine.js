@@ -142,6 +142,7 @@ function doFrame(newTime) {
     render.updateScaling();
     if (level) {
         render.clearFrame(level.backgroundColor)
+        render.drawBackgroundWind(deltaTime, level.backgroundWindSpeed);
     } else {
         render.clearFrame('#aaaabb');
     }

@@ -2,6 +2,9 @@
  * Render - Used for drawing onto the canvas
 */
 
+const TEXTURE_BackgroundWind = new Image(3000, 750);
+TEXTURE_BackgroundWind.src = 'images/effects/background_wind.png';
+
 /**
  * @name Render
  * @class
@@ -27,6 +30,8 @@ function Render(canvas, aspect = 0.5, unitsWidth = 15) {
     this.screenWipeStart = new Vector(1, 1);
     this.screenWipeEnd = new Vector(-1, -1);
     this.screenWipeTimer = 0;
+
+    this.background_wind_pos = 0;
 
     this.updateScaling();
 }
@@ -181,6 +186,29 @@ Render.prototype.tickScreenWipe = function(delta) {
 
         this.context.drawImage(this.screenWipeImage, pos.x * wid - widOffset, pos.y * hei - heiOffset, wid, hei);
     }
+}
+
+Render.prototype.drawBackgroundWind = function(delta, windSpeed) {
+    this.background_wind_pos -= delta * windSpeed;
+    if (this.background_wind_pos <= -2) this.background_wind_pos += 2; // Loop back to beginning
+
+    this.context.globalAlpha = 0.35;
+
+    const twoWidths = this.canvas.width * 2;
+
+    // Draw left sprite
+    this.context.drawImage(TEXTURE_BackgroundWind,
+        this.background_wind_pos * this.canvas.width, 0,
+        twoWidths, this.canvas.height
+    );
+
+    // Draw right sprite
+    this.context.drawImage(TEXTURE_BackgroundWind,
+        this.background_wind_pos * this.canvas.width + twoWidths, 0,
+        twoWidths, this.canvas.height
+    );
+
+    this.context.globalAlpha = 1;
 }
 
 
