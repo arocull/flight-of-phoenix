@@ -3,22 +3,37 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Feedback</title>
+		<link href="css/master.css" rel="stylesheet" type="text/css">
 		<link href="css/feedback.css" rel="stylesheet" type="text/css">
 	</head>
 
-	<body class="body">
+	<body>
+		<div class="container">
+			<h1 class="header">Thanks for playing!</h1>
+
+			<em class="survey_question">How would you rate the overall gameplay?</em>
+			<div class="slidecontainer">
+				<input type="range" min="1" max="10" value="5" class="slider" id="myRange">
+			</div>
+		</div>
+
+
+
+
 		<div id="header">
 		<div id="ThankYou"><h1>Thanks for Playing!</h1></div>
 			<div id="FeedbackHeader"><h1>Feedback Submission Form</h1></div>
 		</div>
-		<div id="container">
+		<div class="container">
 		<div id="Question1">
-			<h3>1. How would you rate the overall gameplay on a 1-10 scale?<div class="slidecontainer">
+			<h3>1. How would you rate the overall gameplay on a 1-10 scale?
+				<div class="slidecontainer">
 				<input type="range" min="1" max="10" value="5" class="slider" id="myRange">
 				</div></h3>
 			</div>
 			<div id="Question2">
-			<h3>2. Any other comments?(This will not be shared.)<br><textarea class="myTextBox" name="myTextBox" cols="50" rows="5">
+			<h3>2. Any other comments? (This will not be shared.)
+			<br><textarea class="myTextBox" name="myTextBox" cols="50" rows="5">
 			This textbox has been given a name of "myTextBox". This can be used by any script that process the contents of this textbox (once it's been submitted to the server).</textarea></h3>
 			</div>
 			<div id="Question3">

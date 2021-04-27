@@ -9,12 +9,53 @@
 body {
 	height: 100%;
 	background: #910A00;
-	padding: 0;
+	padding: 0.2em;
 	margin: 0;
 	font: 16pt Arial, Helvetica, Sans-Serif;
 	color: #000000;
 	text-align: center;
 }
+div.container {
+	background-color: white;
+	width: 75%;
+	height: 100%;
+	margin: 0 auto 0 auto;
+	padding: 0 3% 1em 3%;
+	border-radius: 8px;
+}
+
+div.title {
+	background-color: #E35118;
+	font-size: 36pt;
+	max-width: 16em;
+	width: auto;
+	height: fit-content;
+	padding: 0;
+	margin: auto;
+	border-radius: 1em;
+}
+.heading {
+	margin: 0.5em auto 0.5em auto;
+	text-align: center;
+	text-align-last: center;
+	font-weight: bold;
+}
+h1 {
+	color: black;
+	font-size: 36pt;
+	font-style: italic;
+}
+h2 {
+	font-weight: normal;
+	font-size: 24pt;
+	margin: 1em 0;
+	color: #E35118;
+}
+h3 {
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
 
 img {
 	margin: 0.3em;
@@ -24,50 +65,37 @@ img {
 	border-width: 2x;
 	border-style: solid;
 }
-
-.heading {
-	margin: 0.5em auto 0.5em auto;
-	text-align: center;
-	text-align-last: center;
-	font-weight: bold;
-	color: #E35118;
+hr {
+	border-color: #9CDDE6;
+	border-radius: 3px;
+	border-width: 3px;
 }
 
-h1 {
-	font-size: 36pt;
-	margin-bottom: 1em;
-}
 
-h2 {
-	font-weight: normal;
-	font-size: 160%;
-	margin: 1em 0;
-	color: #000;
-}
-
-div.container {
-	background-color: #9CDDE6;
-	width: 80%;
-	height: 100%;
-	margin-top: 0;
-	margin-bottom: 0;
-	margin-left: auto;
-	margin-right: auto;
-	padding: 1em;
-	border-radius: 5px;
-}
 p {
-	text-indent: 1em;
+	text-indent: 1.5em;
 	text-align: justify;
 	text-align-last: left;
 }
 
 
-.play_button {
+ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+div.controls {
+	text-align: left;
+	width: fit-content;
+	height: fit-content;
+	margin: 0 auto 0 auto;
+}
+
+#play {
 	background-color: #289493;
 	color: white;
 	padding: 0.5em;
-	margin: 0.5em auto 0.5em auto;
+	margin: 0 auto 0 auto;
+	line-height: 300%;
 	font-size: 24pt;
 	text-decoration: none;
 	font-weight: bold;
@@ -75,7 +103,35 @@ p {
 	text-align-last: center;
 	border-radius: 5px;
 }
-.play_button:hover {
+#play:hover {
 	color: #dddddd;
 	background-color: #178382;
+}
+
+.footer {
+	font-size: 85%;
+	text-indent: 0;
+	text-align: center;
+	text-align-last: center;
+}
+
+
+@media (max-width: 360px) {
+    body {
+		font-size: 12pt;
+	}
+}
+@media (max-width: 600px) {
+    div.container {
+        max-width: 95%;
+        width: 90%;
+        margin: 0 auto 0 auto;
+    }
+}
+@media (min-width: 900px) {
+    div.container {
+        max-width: 800px;
+        width: 90%;
+        margin: 0 auto 0 auto;
+    }
 }

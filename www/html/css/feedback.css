@@ -1,66 +1,34 @@
-.body {
-	align-content: center;
-	background: #87ceff;
-}
-
-#ThankYou {
-	text-align: center;
-	text-decoration-color: #000;
-	background: #aa0000;
-}
-
-
-#FeedbackHeader {
-	text-align: center;
-	text-decoration-color: #000;
-	background: #87ceff;
-}
-
-#container{
-	text-align: left;
-	background: #87ceff;
-	
-}
-
-.slidecontainer {
-  width: 100%; /* Width of the outside container */
-}
-
-/* The slider itself */
 .slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
-  appearance: none;
-  width: 50%; /* Full-width */
-  height: 25px; /* Specified height */
-  background: #5a5a5a; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-  transition: opacity .2s;
+    -webkit-appearance: none;
+    appearance: none;
+    max-width: 500px;
+    min-width: 50%;
+    width: auto;
+    height: 0.65em;
+    background: #5a5a5a;
+    outline: none;
+    opacity: 0.7;
+    transition: all .2s ease-in-out;
+    border-radius: 100vmin;
 }
-
-/* Mouse-over effects */
 .slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
+    opacity: 1;
+    border-radius: 50vmin;
 }
 
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
-  appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+    width: 1em;
+    height: 1em;
+    background: #0085AD;
+    cursor: pointer;
 }
-
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+    width: 1em;
+    height: 1em;
+    background: #0085AD;
+    cursor: pointer;
 }
 
-.myTextBox{
-	align-content: 
+em.survey_question {
+    font-style: normal;
 }

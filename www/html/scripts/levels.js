@@ -21,7 +21,7 @@ levelA.setup = function () {
     const groundStart = new Prop(new Vector(2, 0), new Vector(4, 20));
     groundStart.sprite = TEXTURE_cliff_thin_left;
     groundStart.spriteUpscale = 1.1;
-    const groundEnd = new Prop(new Vector(48, 9), new Vector(4, 20));
+    const groundEnd = new Prop(new Vector(48, 7), new Vector(4, 20));
     groundEnd.sprite = TEXTURE_cliff_thin_right;
     groundEnd.spriteUpscale = 1.1;
 
