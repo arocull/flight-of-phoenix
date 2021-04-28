@@ -123,11 +123,16 @@ label {
 label.radio {
 	font-size: 80%;
 }
+label.error {
+	font-weight: bold;
+	color: #910A00;
+}
 textarea {
 	font: 14pt Arial, Helvetica, Sans-Serif;
-	min-width: 20%;
-	max-width: 80%;
-	max-height: 5em;
+	min-width: 50%;
+	max-width: 95%;
+	max-height: 15em;
+	min-height: 3em;
 }
 div.radio {
 	width: 70%;
