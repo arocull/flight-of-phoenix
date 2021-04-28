@@ -4,7 +4,7 @@ This game was developed by Alan O'Cull, Patrick Ryan, and Shelby Hockaday.
 As of 4/28/2021, it is available to play at [flightofphoenixga.me](http://flightofphoenixga.me), though may not be online forever.
 
 # Play
-To play, simply open [index.html](www/html/index.html) in your web browser browser.
+To play, simply open [game.html](www/html/game.html) in your web browser browser.
 
 # Modding
 If you would like to mod the game or add more levels, the [scripts](www/html/scripts) contains a few scripts and subfolders.

@@ -18,12 +18,13 @@ function checkRadio(radioNameList) {
 }
 
 
+// Wait for document to load before form becomes active
 window.onload = function() {
     /** @type {HTMLForm} */
     const form = document.getElementById('feedback_form');
     const thanks = document.getElementById('thanks');
 
-    /** @type {HTMLInputElement} */
+    // Gather all the HTML elements ahead of time for speedy processing later
     const overall = document.getElementById('overall_score');
     const overallLabel = document.getElementById('overall_score_value');
     const recommend = document.getElementById('recommend_score');
@@ -52,12 +53,16 @@ window.onload = function() {
     ];
     const comments = document.getElementById('comments');
 
+    // Update slider value labels
     overall.oninput = function () {
         overallLabel.textContent = overall.value;
     }
     recommend.oninput = function () {
         recommendLabel.textContent = recommend.value;
     }
+
+    // Clear the "Type here" text on the comments section when focused
+    // Note: causes visual errors when page is refreshed?
     comments.onfocus = function() {
         if (comments.textContent == 'Type here.') {
             comments.value = '';
@@ -68,26 +73,30 @@ window.onload = function() {
     };
 
 
-    // Run setup
+    // Run setup (just sets up slider value indicators/labels)
     overall.oninput();
     recommend.oninput();
 
 
     function validateForm(event) {
-        event.preventDefault();
+        event.preventDefault(); // Don't let the form refresh the page! Bad HTML! Bad!
 
         let verified = true;
 
+        // Clear errors to make future errors easier to identify
         controlsLabel.classList = '';
         discoveryLabel.classList = '';
         featureLabel.classList = '';
 
-        // Gather and process form data
+        // Verify form data real quick
         comments.onfocus(); // Clear out default text if there, and trim
 
+        // Check radios
         const controlsScore = checkRadio(radio_controls);
         const discoveryScore = checkRadio(radio_discovery);
         const featureScore = checkRadio(radio_feature);
+
+        // If a radio is unchecked, end verification, and indicate unanswered question
         if (controlsScore == undefined) {
             controlsLabel.classList = "error";
             verified = false;
@@ -101,11 +110,12 @@ window.onload = function() {
             verified = false;
         }
 
+
         if (!verified) return; // Allow form to be edited if not verified
         form.hidden = true; // Hide form so user does not submit multiple
         thanks.hidden = false; // Show thanks
 
-        // Submit form data using an XMLHttpRequest()
+        // Gather data together and stringify it for sending (so there aren't JS object stuff packed inside)
         const data = JSON.stringify({
             overall: overall.value,
             recommend: recommend.value,
@@ -114,10 +124,13 @@ window.onload = function() {
             feature: featureScore,
             comment: comments.value,
         });
+        // Submit form data using an XMLHttpRequest()
+        // No spot on server to accept it because idk how to do that haha
 
+        // Print data out in output, just incase you want to see
         console.log("Feedback accepted! Form data:\n", data);
     }
 
-    // Hide form once submitted
+    // Process form when submitted
     form.addEventListener('submit', validateForm);
 };
