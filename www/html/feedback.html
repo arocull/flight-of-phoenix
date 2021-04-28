@@ -4,41 +4,42 @@
 		<meta charset="utf-8">
 		<title>Feedback</title>
 		<link href="css/master.css" rel="stylesheet" type="text/css">
-		<link href="css/feedback.css" rel="stylesheet" type="text/css">
+		<script src="scripts/feedback.js" type="text/javascript"></script>
 	</head>
 
 	<body>
 		<div class="container">
 			<h1 class="header">Thanks for playing!</h1>
 
-			<em class="survey_question">How would you rate the overall gameplay?</em>
-			<div class="slidecontainer">
-				<input type="range" min="1" max="10" value="5" class="slider" id="myRange">
-			</div>
-		</div>
+			<form id="feedback_form" method="POST">
+				<label for="overall_score">How would you rate the overall gameplay?</label>
+				<input id="overall_score" type="range" min="1" max="10" value="5" class="slider" />
 
+				<br /><br />
 
+				<label>How would you describe the controls?</label>
+				<div class="radio">
+					<input type="radio" name="controls1" id="controls1_good" value="good" />
+					<label class="radio" for="controls1_good">Very consistent and responsive</label>
+					<br />
+					<input type="radio" name="controls1" id="controls1_okay" value="okay" />
+					<label class="radio" for="controls1_okay">Somewhat consistent and somewhat responsive</label>
+					<br />
+					<input type="radio" name="controls1" id="controls1_bad" value="bad" />
+					<label class="radio" for="controls1_bad">Not consistent and not responsive</label>
+					<br />
+					<input type="radio" name="controls1" id="controls1_unsure" value="unsure" />
+					<label class="radio" for="controls1_unsure">Uncertain</label>
+				</div>
+				
+				<br /><br />
 
+				<label for="comments">Any other comments? (These will not be shared with anyone.)</label>
+				<textarea id="comments" cols="50" rows="5">Type here.</textarea>
 
-		<div id="header">
-		<div id="ThankYou"><h1>Thanks for Playing!</h1></div>
-			<div id="FeedbackHeader"><h1>Feedback Submission Form</h1></div>
-		</div>
-		<div class="container">
-		<div id="Question1">
-			<h3>1. How would you rate the overall gameplay on a 1-10 scale?
-				<div class="slidecontainer">
-				<input type="range" min="1" max="10" value="5" class="slider" id="myRange">
-				</div></h3>
-			</div>
-			<div id="Question2">
-			<h3>2. Any other comments? (This will not be shared.)
-			<br><textarea class="myTextBox" name="myTextBox" cols="50" rows="5">
-			This textbox has been given a name of "myTextBox". This can be used by any script that process the contents of this textbox (once it's been submitted to the server).</textarea></h3>
-			</div>
-			<div id="Question3">
-			<h3>3. Which of the following best decribes your experience?<br><select multiple size="3"> <option value="Good">A. Smooth and Responsive</option> <option value="Problematic">B. Clunky or Inconsistent</option> <option value="TBD">C. Unsure</option> </select></h3>
-			</div>
+				<br /><br />
+				<input id="form_submit" type="submit" value="Submit"/> 
+			</form>
 		</div>
 	</body>
 </html>
