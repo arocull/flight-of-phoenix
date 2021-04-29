@@ -54,6 +54,8 @@ function ENGINE_INTERNAL_reset(clearBackground, newLevel) {
     dynamics.splice(0, dynamics.length);
 
     if (level) {
+        if (clearBackground) level.setupBackground();
+
         level.runTime = 0;
         level.setup(); // Call setup again to reload level
 
@@ -91,6 +93,7 @@ function ENGINE_INTERNAL_spawnObjective(spawnPos) {
 
 function ENGINE_start(startLevel) {
     level = startLevel;
+    level.setupBackground();
     level.setup(); // Call setup again to reload level
     ENGINE_INTERNAL_spawnPlayer(level.startPosition);
     ENGINE_INTERNAL_spawnObjective(level.endPosition);

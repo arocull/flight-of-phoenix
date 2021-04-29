@@ -30,6 +30,11 @@ function Level(playerStartPos, objectivePos) {
  */
 Level.prototype.setup = function () {};
 /**
+ * @function setupBackground
+ * @summary Level setup specifically for background elements
+ */
+Level.prototype.setupBackground = function() {};
+/**
  * @function tick
  * @summary Ticks level by X seconds, in case special functionality is wanted
  * @param {number} delta Change in time since last frame
