@@ -238,24 +238,31 @@ window.onload = function() {
     const cLeft = document.getElementById('left');
     const cRight = document.getElementById('right');
     const cJump = document.getElementById('jump');
-    cLeft.addEventListener('touchstart', (event) => {
-        CONTROLS_leftPressed = true;
-    });
-    cLeft.addEventListener('touchend', (event) => {
-        CONTROLS_leftPressed = false;
-    });
-    cRight.addEventListener('touchstart', (event) => {
-        CONTROLS_rightPressed = true;
-    });
-    cRight.addEventListener('touchend', (event) => {
-        CONTROLS_rightPressed = false;
-    });
-    cJump.addEventListener('touchstart', (event) => {
-        CONTROLS_upPressed = true;
-    });
-    cJump.addEventListener('touchend', (event) => {
-        CONTROLS_upPressed = false;
-    });
+
+    function leftDown(event) { CONTROLS_leftPressed = true };
+    function leftUp(event) { CONTROLS_leftPressed = false };
+    function rightDown(event) { CONTROLS_rightPressed = true };
+    function rightUp(event) { CONTROLS_rightPressed = false };
+    function jumpDown(event) { CONTROLS_upPressed = true };
+    function jumpUp(event) { CONTROLS_upPressed = false };
+
+    cLeft.ontouchstart = leftDown;
+    cLeft.ontouchend = leftUp;
+    cLeft.ontouchcancel = leftUp;
+    cLeft.onmousedown = leftDown;
+    cLeft.onmouseup = leftUp;
+
+    cRight.ontouchstart = rightDown;
+    cRight.ontouchend = rightUp;
+    cRight.ontouchcancel = rightUp;
+    cRight.onmousedown = rightDown;
+    cRight.onmouseup = rightUp;
+
+    cJump.ontouchstart = jumpDown;
+    cJump.ontouchend = jumpUp;
+    cJump.ontouchcancel = jumpUp;
+    cJump.onmousedown = jumpDown;
+    cJump.onmouseup = jumpUp;
 
 
     // Bind game loop
