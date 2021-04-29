@@ -26,10 +26,8 @@ TEXTURE_wind_vertical.src = 'images/effects/wind_vertical.png';
 const TEXTURE_wind_horizontal = new Image(3000, 750);
 TEXTURE_wind_horizontal.src = 'images/effects/background_wind.png';
 
-const TEXTURE_indicator1 = new Image(216, 216);
-TEXTURE_indicator1.src = 'images/sprites/indicator1.png';
-const TEXTURE_indicator2 = new Image(216, 216);
-TEXTURE_indicator2.src = 'images/sprites/indicator2.png';
+const TEXTURE_indicator = new Image(216, 216);
+TEXTURE_indicator.src = 'images/sprites/indicator1.png';
 
 
 
@@ -65,18 +63,18 @@ tutorialA.setupBackground = function () {
     const ind1 = new Prop(new Vector(9, 9.75), new Vector(2, 2));
 
     const ind2 = new Prop(new Vector(18, 10.4), new Vector(2, 2));
-    const ind3 = new Prop(new Vector(19.5, 12.7), new Vector(1.5, 1.5));
+    const ind3 = new Prop(new Vector(19.5, 12.7), new Vector(1.25, 1.25));
 
     const ind4 = new Prop(new Vector(26.5, 14.5), new Vector(2, 2));
-    const ind5 = new Prop(new Vector(31, 17), new Vector(1.5, 1.5));
-    const ind6 = new Prop(new Vector(35.5, 18), new Vector(1.5, 1.5));
+    const ind5 = new Prop(new Vector(31, 17), new Vector(1.25, 1.25));
+    const ind6 = new Prop(new Vector(35.5, 18), new Vector(1.25, 1.25));
 
-    ind1.sprite = TEXTURE_indicator1;
-    ind2.sprite = TEXTURE_indicator1;
-    ind3.sprite = TEXTURE_indicator2;
-    ind4.sprite = TEXTURE_indicator1;
-    ind5.sprite = TEXTURE_indicator2;
-    ind6.sprite = TEXTURE_indicator2;
+    ind1.sprite = TEXTURE_indicator;
+    ind2.sprite = TEXTURE_indicator;
+    ind3.sprite = TEXTURE_indicator;
+    ind4.sprite = TEXTURE_indicator;
+    ind5.sprite = TEXTURE_indicator;
+    ind6.sprite = TEXTURE_indicator;
 
     background.push(ind1, ind2, ind3, ind4, ind5, ind6);
 }
