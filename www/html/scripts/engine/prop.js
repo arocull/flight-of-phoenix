@@ -111,24 +111,29 @@ Prop.prototype.getPlaneCenter = function(xDirection, yDirection) {
  * @returns {TraceResult} Returns a trace result if there was a successful collision, or null
  */
 Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
+    const traces =  []; // Create list of all four traces
 
-    // Trace top side of object
-    const topTrace = this.handlePlaneTrace(ray, EVectorDirection.up, dualSided, radiusBoost);
-    if (topTrace) {
-        topTrace.topFaceCollision = true;
-        return topTrace;
+    traces.push(this.handlePlaneTrace(ray, EVectorDirection.up, dualSided, radiusBoost));
+    traces.push(this.handlePlaneTrace(ray, EVectorDirection.left, dualSided, radiusBoost));
+    traces.push(this.handlePlaneTrace(ray, EVectorDirection.right, dualSided, radiusBoost));
+    traces.push(this.handlePlaneTrace(ray, EVectorDirection.down, dualSided, radiusBoost));
+
+    if (traces[0] !== undefined) { // Top-face traces have a special property to indicate that the prop is grounded 
+        traces[0].topFaceCollision = true;
     }
 
-    const leftTrace = this.handlePlaneTrace(ray, EVectorDirection.left, dualSided, radiusBoost);
-    if (leftTrace) { return leftTrace; }
 
-    const rightTrace = this.handlePlaneTrace(ray, EVectorDirection.right, dualSided, radiusBoost);
-    if (rightTrace) { return rightTrace; }
+    let finalTrace = new TraceResult(); // Allocate a final trace
+    finalTrace.distance = 1000;
 
-    const botTrace = this.handlePlaneTrace(ray, EVectorDirection.down, dualSided, radiusBoost);
-    if (botTrace) { return botTrace; }
+    // Go through all traces and get the closest collision (prevents top-face collisions from always taking priority)
+    for (let i = 0; i < traces.length; i++) {
+        if (traces[i] && traces[i].distance < finalTrace.distance) {
+            finalTrace = traces[i];
+        }
+    }
 
-    return new TraceResult(); // Nothing collided
+    return finalTrace; // Return final collision
 }
 /**
  * @function handlePlaneTrace
@@ -138,6 +143,7 @@ Prop.prototype.trace = function(ray, dualSided = false, radiusBoost = 0) {
  * @param {Vector} dir Plane surface normal direction (gets plane center using this automatically)
  * @param {boolean} dualSided Is this a trace with dual-sided normals?
  * @param {number} radiusBoost Numeric boost to trace radius
+ * @returns {TraceResult} Final trace result, or undefined if none occurred
  */
 Prop.prototype.handlePlaneTrace = function(ray, dir, dualSided, radiusBoost) {
     // Gather all trace results--we get multiple because a RayBox can result in multiple trace results
