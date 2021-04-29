@@ -77,7 +77,7 @@ function ENGINE_INTERNAL_reset(clearBackground, newLevel) {
  */
 function ENGINE_INTERNAL_spawnPlayer(spawnPos) {
     player = new Entity(spawnPos, new Vector(1.3, 1.3), 10, 1, 20, 10, 900, 0.8);
-    player.friction = 0.9;
+    player.friction = 0.95;
     player.jumpsMax = 2;
 
     //player.sprite = new Image(5120, 3072);
@@ -226,6 +226,37 @@ window.onload = function() {
     // Set global variables
     canvas = document.getElementById('game');
     render = new Render(canvas, 0.5, 50);
+
+    // If user taps at all (using touch screen), display on-screen controls
+    const controls = document.getElementById('controls');
+    canvas.addEventListener('touchstart', (event) => {
+        controls.hidden = false;
+    });
+
+
+    // Bind on-screen controls
+    const cLeft = document.getElementById('left');
+    const cRight = document.getElementById('right');
+    const cJump = document.getElementById('jump');
+    cLeft.addEventListener('touchstart', (event) => {
+        CONTROLS_leftPressed = true;
+    });
+    cLeft.addEventListener('touchend', (event) => {
+        CONTROLS_leftPressed = false;
+    });
+    cRight.addEventListener('touchstart', (event) => {
+        CONTROLS_rightPressed = true;
+    });
+    cRight.addEventListener('touchend', (event) => {
+        CONTROLS_rightPressed = false;
+    });
+    cJump.addEventListener('touchstart', (event) => {
+        CONTROLS_upPressed = true;
+    });
+    cJump.addEventListener('touchend', (event) => {
+        CONTROLS_upPressed = false;
+    });
+
 
     // Bind game loop
     window.requestAnimationFrame(doFrame);
