@@ -34,6 +34,11 @@ const dynamics = [];
  * @summary Level data
  */
 let level = undefined;
+/**
+ * @type {Prop}
+ * @summary Player's end goal
+ */
+let objective = undefined;
 
 
 /**
@@ -41,7 +46,7 @@ let level = undefined;
  * @summary Resets the level
  * @param {boolean} clearBackground If true, deletes background objects as well
  */
-function ENGINE_INTERNAL_reset(clearBackground) {
+function ENGINE_INTERNAL_reset(clearBackground, newLevel) {
     if (clearBackground) {
         background.splice(0, background.length);
     }
@@ -53,6 +58,7 @@ function ENGINE_INTERNAL_reset(clearBackground) {
         level.setup(); // Call setup again to reload level
 
         ENGINE_INTERNAL_spawnPlayer(level.startPosition);
+        ENGINE_INTERNAL_spawnObjective(level.endPosition);
     }
 }
 /**
@@ -72,12 +78,23 @@ function ENGINE_INTERNAL_spawnPlayer(spawnPos) {
 
     dynamics.push(player);
 }
+/**
+ * @function ENGINE_INTERNAL_spawnObjective
+ * @summary Spawns the objective
+ * @param {Vector} spawnPos Where to spawn the objective
+ */
+function ENGINE_INTERNAL_spawnObjective(spawnPos) {
+    objective = new Prop(spawnPos, new Vector(2, 2), false);
+
+    props.push(objective);
+}
 
 function ENGINE_start(startLevel) {
     level = startLevel;
     level.setup(); // Call setup again to reload level
     ENGINE_INTERNAL_spawnPlayer(level.startPosition);
-    console.log("Staring level!", startLevel);
+    ENGINE_INTERNAL_spawnObjective(level.endPosition);
+    console.log("Staring game!");
 }
 
 
@@ -100,7 +117,10 @@ function doFrame(newTime) {
     const skipTick = CONTROLS_apply();
     if (skipTick) return window.requestAnimationFrame(doFrame);
 
-    if (level) level.tick(deltaTime); // Tick level if present
+    if (level) {
+        level.tickTimers(deltaTime);
+        level.tick(deltaTime); // Tick level if present
+    }
 
     // Process object ticks
     for (let i = 0; i < props.length; i++) {
@@ -126,10 +146,25 @@ function doFrame(newTime) {
         // Reset level halfway through screen wipe effect (to hide teleporting)
         setTimeout(() => {
             ENGINE_INTERNAL_reset(false);
+        }, 600); 
+    }
+    // Change level if player reaches goal
+    if (player && objective && objective.isPointInside(player.position, player.radius / 2)) {
+        player.move(new Vector(0, 0));
+        player = null; // Remove player as t not trigger death or ovement
 
-            if (level) {
-            
+        render.setScreenWipe(new Vector(1, 0));
+
+        // Cange level halfway through screen wipe effect (to hide teleporting)
+        setTimeout(() => {
+            if (level && level.nextLevel) { // If there is another screen after this, switch to it
+                level = level.nextLevel;
+                ENGINE_INTERNAL_reset(true);
+            } else { // Redirect to end screen
+                const url = window.location.toString().replace('game.html', 'feedback.html');
+                window.location.replace(url);
             }
+
         }, 600); 
     }
 

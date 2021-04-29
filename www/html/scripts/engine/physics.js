@@ -92,9 +92,11 @@ function PHYSICS_tick(delta, dynamics, statics) {
         let results = [];
         
         for (let x = 0; x < statics.length; x++) {
-            const result = statics[x].trace(rayCenter, false, 0);
-            if (result.collided) {
-                results.push(result);
+            if (statics[x].collidable) {
+                const result = statics[x].trace(rayCenter, false, 0);
+                if (result.collided) {
+                    results.push(result);
+                }
             }
         }
 
