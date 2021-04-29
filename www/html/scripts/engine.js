@@ -41,6 +41,13 @@ let level = undefined;
 let objective = undefined;
 
 
+
+// Pre-Load Player and Objective Textures
+const TEXTURE_phoenix = new Image(512, 512);
+const TEXTURE_nest = new Image(512, 512);
+TEXTURE_nest.src = 'images/sprites/nest.png';
+
+
 /**
  * @function ENGINE_INTERNAL_reset
  * @summary Resets the level
@@ -86,7 +93,9 @@ function ENGINE_INTERNAL_spawnPlayer(spawnPos) {
  * @param {Vector} spawnPos Where to spawn the objective
  */
 function ENGINE_INTERNAL_spawnObjective(spawnPos) {
-    objective = new Prop(spawnPos, new Vector(2, 2), false);
+    objective = new Prop(spawnPos, new Vector(2.5, 2.5), false);
+    objective.sprite = TEXTURE_nest;
+    objective.spriteUpscale = 1.2;
 
     props.push(objective);
 }

@@ -133,7 +133,7 @@ levelA.setup = function () {
 
         const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
         platforms[i].sprite = TEXTURE_platform_cloud[textureNum];
-        platforms[i].spriteUpscale = 1.5;
+        platforms[i].spriteUpscale = 1.4;
 
         props.push(platforms[i]);
     }
@@ -187,7 +187,115 @@ levelB.tick = function(delta) {
 }
 
 
+// LEVEL C - Horizontal Wind and Obstacles //
+const levelC = new Level(new Vector(2, 21), new Vector(48.4, 17.9));
+levelC.backgroundColor = '#3377aa';
+levelC.backgroundWindSpeed = 0.3;
+levelC.setup = function() {
+    const groundStart = new Prop(new Vector(5, 10), new Vector(10, 20));
+    groundStart.sprite = TEXTURE_cliff_wide_left;
+    groundStart.spriteUpscale = 1.03;
+
+    const groundEnd = new Prop(new Vector(48, 7), new Vector(10, 20));
+    groundEnd.sprite = TEXTURE_cliff_wide_right;
+    groundEnd.spriteUpscale = 1.03;
+
+    const windBlock = new Prop(new Vector(-0.75, 12.5), new Vector(1, 50)); // Stops player from flying left offscreen
+    windBlock.elasticity = 0;
+
+    props.push(groundStart, groundEnd, windBlock);
+
+    // Platforms
+    const platformSize = new Vector(3, 0.75);
+    const platforms = [
+        new Prop(new Vector(13.75, 9), platformSize),
+        new Prop(new Vector(21, 5), platformSize),
+        new Prop(new Vector(33.3, 5), platformSize),
+        new Prop(new Vector(38, 12), platformSize),
+    ];
+
+    // Storm Clouds
+    const stormClouds = [
+        new OStormCloud(new Vector(18, 21)),
+        new OStormCloud(new Vector(18.5, 14)),
+
+        new OStormCloud(new Vector(22.5, 22)),
+        new OStormCloud(new Vector(24, 15)),
+
+        new OStormCloud(new Vector(31, 21.3)),
+        new OStormCloud(new Vector(29, 15.5)),
+        new OStormCloud(new Vector(27.5, 5)),
+
+        new OStormCloud(new Vector(39, 23)),
+        new OStormCloud(new Vector(38.5, 7.5)),
+    ];
+
+    for (let i = 0; i < platforms.length; i++) {
+        platforms[i].elasticity = 0;
+        platforms[i].friction = 1;
+
+        const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
+        platforms[i].sprite = TEXTURE_platform_cloud[textureNum];
+        platforms[i].spriteUpscale = 1.4;
+
+        props.push(platforms[i]);
+    }
+    for (let i = 0; i < stormClouds.length; i++) {
+        props.push(stormClouds[i]);
+    }
+}
+levelC.tick = function(delta) {
+    if (player) { // Apply wind effects
+        player.addForce('wind_horizontal', new Vector(-PHYSICS_gravity * 8, 0), 1);
+    }
+}
+
+
+// LEVEL D - Horizontal Wind and Obstacles //
+const levelD = new Level(new Vector(2, 16), new Vector(43, 16));
+levelD.backgroundColor = '#3377aa';
+levelD.backgroundWindSpeed /= 2.5;
+levelD.setup = function() {
+    const groundStart = new Prop(new Vector(5, 5), new Vector(10, 20));
+    groundStart.sprite = TEXTURE_cliff_wide_left;
+    groundStart.spriteUpscale = 1.03;
+
+    const groundEnd = new Prop(new Vector(45, 5), new Vector(10, 20));
+    groundEnd.sprite = TEXTURE_cliff_wide_right;
+    groundEnd.spriteUpscale = 1.03;
+
+
+    // Platforms
+    this.platform = new Prop(new Vector(18, 10), new Vector(4.5, 1.25));
+    this.platform.elasticity = 0;
+    this.platform.friction = 1;
+
+    const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
+    this.platform.sprite = TEXTURE_platform_cloud[textureNum];
+    this.platform.spriteUpscale = 1.4;
+
+
+    this.platform.tick = function(delta) { // Store delta time for position derivative
+        this.delta = delta;
+    }
+    this.platform.onHit = function(hit) {
+        if (hit instanceof PhysProp) {
+            hit.position.x += Math.cos(levelD.runTime) * 3 * this.delta; // Move player with platform (cos is derivative of sin)
+        }
+    }
+
+    props.push(groundStart, groundEnd, this.platform);
+}
+levelD.tick = function(delta) {
+    this.platform.position.x = 25 + Math.sin(this.runTime) * 3;
+}
+
+
+// Set up order of levels
 tutorialA.nextLevel = levelA;
 levelA.nextLevel = levelB;
+levelB.nextLevel = levelC;
+levelC.nextLevel = levelD;
+// Once a level with no indicated next level is completed, game ends
 
-ENGINE_start(tutorialA);
+ENGINE_start(tutorialA); // Start game on the first level

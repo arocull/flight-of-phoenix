@@ -99,7 +99,7 @@ PhysProp.prototype.tickForces = function(delta) {
 PhysProp.prototype.addForce = function(forceName, forceVector, forceDuration) {
     if (this.forces.has(forceName)) {
         if (forceVector) this.forces.get(forceName).force = forceVector;
-        this.forces.get(forceName).duration += forceDuration;
+        this.forces.get(forceName).duration = forceDuration;
     } else if (forceVector) {
         this.forces.set(forceName, new Force(forceVector, forceDuration));
     }
