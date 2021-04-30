@@ -44,7 +44,7 @@ let objective = undefined;
 
 // Pre-Load Player and Objective Textures
 const TEXTURE_nest = new Image(512, 512);
-TEXTURE_nest.src = 'images/sprites/nest.png';
+TEXTURE_nest.src = 'images/sprites/nest_shelby.png';
 
 
 /**

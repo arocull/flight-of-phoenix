@@ -13,13 +13,15 @@ function EPhoenix(spawnPos) {
     this.lastPosition = spawnPos;
 
     this.sprite = TEXTURE_phoenix;
-    this.spriteUpscale = 1.85;
+    this.spriteUpscale = 1.9;
     this.animated = true;
 
     this.friction = 0.95;
     this.jumpsMax = 2;
 
     this.jumpTimer = 2; // Time since last jump, for animation
+
+    this.spriteCenter = new Vector(1, 0);
 }
 
 EPhoenix.prototype = new Entity(new Vector(0, 0), new Vector(1.3, 1.3), 10, 1, 20, 10, 900, 0.8);
@@ -53,9 +55,6 @@ EPhoenix.prototype.tickAnimation = function(delta) {
 
         this.animationRow = 2;
         this.animationCol = Math.min(Math.floor(this.animationTimer * 5), 4);
-
-        console.log(this.animationCol);
-
     } else if (this.jumpTimer <= 1) { // Jump
         this.jumpTimer += delta * 5;
 

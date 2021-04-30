@@ -100,8 +100,11 @@ Render.prototype.drawProp = function(obj) {
         // ^ Pick row--each row has a flipped variant immediately after it, so we need to double the row position
         // Bools act as 1 or 0 in math operations, so we can easily get the flipped row position this way
 
-        const xOffset = (1 - obj.spriteUpscale) * size.x;
-        const yOffset = (1 - obj.spriteUpscale) * size.y;
+        let flippedXCenterOffset = obj.spriteCenter.x * this.scaling;
+        if (obj.flipped) flippedXCenterOffset *= 0.5;
+
+        const xOffset = (1 - obj.spriteUpscale) * size.x + flippedXCenterOffset;
+        const yOffset = (1 - obj.spriteUpscale) * size.y - obj.spriteCenter.y * this.scaling;
 
         this.drawPropSpecificUnderlay(obj, pos, size, xOffset, yOffset);
 
@@ -139,13 +142,16 @@ Render.prototype.drawProp = function(obj) {
 Render.prototype.drawPropSpecificUnderlay = function(obj, pos, size, xOffset, yOffset) {
     if (obj instanceof OStormCloud) {
         this.drawProp_StormCloud(obj, pos, size, xOffset, yOffset);
+    } else if (obj instanceof EPhoenix) {
+        this.drawProp_Phoenix(obj, pos, size, xOffset, yOffset);
     }
 }
 
 
 // PROP-SPECIFIC DRAWING //
 /**
- * 
+ * @function drawProp_StormCloud
+ * @summary Draws lightning under thunder clouds
  * @param {OStormCloud} obj Storm Cloud object
  * @param {*} pos 
  * @param {*} size 
@@ -161,6 +167,24 @@ Render.prototype.drawProp_StormCloud = function(obj, pos, size, xOffset, yOffset
         pos.x + xOffset, pos.y + yOffset, // Draw position
         lSize.x * obj.spriteUpscale, lSize.y * obj.spriteUpscale // Draw width + height
     );
+}
+/**
+ * @function drawProp_Phoenix
+ * @summary Draws a dropshadow under the phoenix (for positioning help)
+ * @param {EPhoenix} obj Phoenix object
+ * @param {*} pos 
+ * @param {*} size 
+ */
+Render.prototype.drawProp_Phoenix = function(obj, pos, size, xOffset, yOffset) {
+    if (!obj.grounded) return;
+
+    this.context.globalAlpha = 0.2;
+    this.context.fillStyle = '#000000';
+    this.context.fillRect(
+        pos.x, pos.y + size.y * 0.95, // Draw position
+        size.x, size.y / 10 // Draw width + height
+    );
+    this.context.globalAlpha = 1;
 }
 
 

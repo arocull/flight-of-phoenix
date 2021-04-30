@@ -77,6 +77,12 @@ img.png {
 	float: right;
 	margin-left: 0.3em;
 }
+img.jpg {
+	max-width: 90%;
+	max-height: 500px;
+	display: inline;
+	margin-left: 0.3em;
+}
 hr {
 	border-color: #9CDDE6;
 	border-radius: 3px;
