@@ -43,7 +43,6 @@ let objective = undefined;
 
 
 // Pre-Load Player and Objective Textures
-const TEXTURE_phoenix = new Image(512, 512);
 const TEXTURE_nest = new Image(512, 512);
 TEXTURE_nest.src = 'images/sprites/nest.png';
 
@@ -76,15 +75,7 @@ function ENGINE_INTERNAL_reset(clearBackground, newLevel) {
  * @param {Vector} spawnPos Where to spawn the player
  */
 function ENGINE_INTERNAL_spawnPlayer(spawnPos) {
-    player = new Entity(spawnPos, new Vector(1.3, 1.3), 10, 1, 20, 10, 900, 0.8);
-    player.friction = 0.95;
-    player.jumpsMax = 2;
-
-    //player.sprite = new Image(5120, 3072);
-    //player.sprite.src = "images/Flamingo.png";
-    //player.spriteUpscale = 1.2;
-    player.animated = true;
-
+    player = new EPhoenix(spawnPos);
     dynamics.push(player);
 }
 /**
@@ -163,7 +154,7 @@ function doFrame(newTime) {
     // Change level if player reaches goal
     if (player && objective && objective.isPointInside(player.position, player.radius / 2)) {
         player.move(new Vector(0, 0));
-        player = null; // Remove player as t not trigger death or ovement
+        player = null; // Remove player as to not trigger death or movement
 
         render.setScreenWipe(new Vector(1, 0));
 

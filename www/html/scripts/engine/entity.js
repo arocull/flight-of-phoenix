@@ -85,6 +85,9 @@ Entity.prototype.tickMovement = function() {
     if (this.grounded) this.jumpsUsed = 0;
 
     if (this.goalDir.length() > 0.1 && this.hp > 0) { // If movement is inputted, apply it (unless dead)
+        if (this.goalDir.x < 0) this.flipped = true;
+        else if (this.goalDir.x > 0) this.flipped = false;
+
         if (this.grounded) { // Grounded movement
             this.addForce("EntityMotion", this.goalDir.multiply(this.moveForce), 0.2);
         } else { // Air movement
