@@ -1,115 +1,115 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Feedback - Flight of the Phoenix</title>
-		<link href="css/master.css" rel="stylesheet" type="text/css">
-		<script src="scripts/feedback.js"></script>
-	</head>
+    <head>
+        <meta charset="utf-8">
+        <title>Feedback - Flight of the Phoenix</title>
+        <link href="css/master.css" rel="stylesheet" type="text/css">
+        <script src="scripts/feedback.js"></script>
+    </head>
 
-	<body>
-		<div class="container">
-			<h1 class="header">Thanks for playing!</h1>
+    <body>
+        <div class="container">
+            <h1 class="header">Thanks for playing!</h1>
 
-			<p>
-				Congratulations! You beat the game! Hopefully you enjoyed it, and thank you so much for playing.
-				If you would like to leave some helpful feedback for us below, that would also be awesome!
-				If not, that's okay too. :)
-			</p>
+            <p>
+                Congratulations! You beat the game! Hopefully you enjoyed it, and thank you so much for playing.
+                If you would like to leave some helpful feedback for us below, that would also be awesome!
+                If not, that's okay too. :)
+            </p>
 
-			<hr />
+            <hr />
 
-			<form id="feedback_form" method="POST">
-				<label for="overall_score">How would you rate the overall gameplay? (1 being bad, 5 being good)</label>
-				<br />
-				<input id="overall_score" type="range" min="1" max="5" value="3" class="slider" />
-				<label id="overall_score_value"></label>
+            <form id="feedback_form" method="POST">
+                <label for="overall_score">How would you rate the overall gameplay? (1 being bad, 5 being good)</label>
+                <br />
+                <input id="overall_score" type="range" min="1" max="5" value="3" class="slider" />
+                <label id="overall_score_value"></label>
 
-				<br /><br />
+                <br /><br />
 
-				<label for="recommend_score">How likely would you recommend Flight of the Phoenix to a friend? (1 being very unlikely, 5 being very likely)</label>
-				<br />
-				<input id="recommend_score" type="range" min="1" max="5" value="3" class="slider" />
-				<label id="recommend_score_value"></label>
+                <label for="recommend_score">How likely would you recommend Flight of the Phoenix to a friend? (1 being very unlikely, 5 being very likely)</label>
+                <br />
+                <input id="recommend_score" type="range" min="1" max="5" value="3" class="slider" />
+                <label id="recommend_score_value"></label>
 
-				<br /><br />
+                <br /><br />
 
-				<label id="controls_label">How would you describe the controls?</label>
-				<div class="radio">
-					<input type="radio" name="controls" id="controls_good" value="good" />
-					<label class="radio" for="controls_good">Very consistent and responsive</label>
-					<br />
-					<input type="radio" name="controls" id="controls_okay" value="okay" />
-					<label class="radio" for="controls_okay">Somewhat consistent and somewhat responsive</label>
-					<br />
-					<input type="radio" name="controls" id="controls_bad" value="bad" />
-					<label class="radio" for="controls_bad">Not consistent and not responsive</label>
-					<br />
-					<input type="radio" name="controls" id="controls_unsure" value="unsure" />
-					<label class="radio" for="controls_unsure">Uncertain</label>
-				</div>
+                <label id="controls_label">How would you describe the controls?</label>
+                <div class="radio">
+                    <input type="radio" name="controls" id="controls_good" value="good" />
+                    <label class="radio" for="controls_good">Very consistent and responsive</label>
+                    <br />
+                    <input type="radio" name="controls" id="controls_okay" value="okay" />
+                    <label class="radio" for="controls_okay">Somewhat consistent and somewhat responsive</label>
+                    <br />
+                    <input type="radio" name="controls" id="controls_bad" value="bad" />
+                    <label class="radio" for="controls_bad">Not consistent and not responsive</label>
+                    <br />
+                    <input type="radio" name="controls" id="controls_unsure" value="unsure" />
+                    <label class="radio" for="controls_unsure">Uncertain</label>
+                </div>
 
-				<br /><br />
+                <br /><br />
 
-				<label id="discovery_label">How did you find out about Flight of the Phoenix?</label>
-				<div class="radio">
-					<input type="radio" name="discovery" id="discovery_friend" value="friend" />
-					<label class="radio" for="discovery_friend">A friend or family member</label>
-					<br />
-					<input type="radio" name="discovery" id="discovery_git" value="git" />
-					<label class="radio" for="discovery_git">Found on GitHub</label>
-					<br />
-					<input type="radio" name="discovery" id="discovery_web" value="web" />
-					<label class="radio" for="discovery_web">Linked on another website</label>
-					<br />
-					<input type="radio" name="discovery" id="discovery_other" value="other" />
-					<label class="radio" for="discovery_other">Other</label>
-				</div>
+                <label id="discovery_label">How did you find out about Flight of the Phoenix?</label>
+                <div class="radio">
+                    <input type="radio" name="discovery" id="discovery_friend" value="friend" />
+                    <label class="radio" for="discovery_friend">A friend or family member</label>
+                    <br />
+                    <input type="radio" name="discovery" id="discovery_git" value="git" />
+                    <label class="radio" for="discovery_git">Found on GitHub</label>
+                    <br />
+                    <input type="radio" name="discovery" id="discovery_web" value="web" />
+                    <label class="radio" for="discovery_web">Linked on another website</label>
+                    <br />
+                    <input type="radio" name="discovery" id="discovery_other" value="other" />
+                    <label class="radio" for="discovery_other">Other</label>
+                </div>
 
-				<br /><br />
+                <br /><br />
 
-				<label id="feature_label">What would you like most to see added in the game in the future?</label>
-				<div class="radio">
-					<input type="radio" name="feature" id="feature_levels" value="levels" />
-					<label class="radio" for="feature_levels">More levels (more screens to navigate)</label>
-					<br />
-					<input type="radio" name="feature" id="feature_movement" value="movement" />
-					<label class="radio" for="feature_movement">More movement options (dashes, wall-jumps, etc.)</label>
-					<br />
-					<input type="radio" name="feature" id="feature_obstacles" value="obstacles" />
-					<label class="radio" for="feature_obstacles">More obstacle types</label>
-					<br />
-					<input type="radio" name="feature" id="feature_art" value="art" />
-					<label class="radio" for="feature_art">More environment and background art</label>
-					<br />
-					<input type="radio" name="feature" id="feature_unsure" value="unsure" />
-					<label class="radio" for="feature_unsure">Unsure</label>
-				</div>
-				
-				<br /><br />
+                <label id="feature_label">What would you like most to see added in the game in the future?</label>
+                <div class="radio">
+                    <input type="radio" name="feature" id="feature_levels" value="levels" />
+                    <label class="radio" for="feature_levels">More levels (more screens to navigate)</label>
+                    <br />
+                    <input type="radio" name="feature" id="feature_movement" value="movement" />
+                    <label class="radio" for="feature_movement">More movement options (dashes, wall-jumps, etc.)</label>
+                    <br />
+                    <input type="radio" name="feature" id="feature_obstacles" value="obstacles" />
+                    <label class="radio" for="feature_obstacles">More obstacle types</label>
+                    <br />
+                    <input type="radio" name="feature" id="feature_art" value="art" />
+                    <label class="radio" for="feature_art">More environment and background art</label>
+                    <br />
+                    <input type="radio" name="feature" id="feature_unsure" value="unsure" />
+                    <label class="radio" for="feature_unsure">Unsure</label>
+                </div>
+                
+                <br /><br />
 
-				<label for="comments">Any other comments? (These will not be shared with anyone.)</label>
-				<br />
-				<textarea id="comments" cols="50" rows="8" minlength="0" maxlength="600">Type here.</textarea>
+                <label for="comments">Any other comments? (These will not be shared with anyone.)</label>
+                <br />
+                <textarea id="comments" cols="50" rows="8" minlength="0" maxlength="600">Type here.</textarea>
 
-				<br /><br />
-				<input id="form_submit" type="submit" value="Submit"/> 
-			</form>
+                <br /><br />
+                <input id="form_submit" type="submit" value="Submit"/> 
+            </form>
 
-			<div id="thanks" hidden>
-				<h2 class="header">Spectacular!</h2>
-				<p>
-					Thank you for your feedback!
-					We will consider your feedback while working to improve the game.
-					Click <a href="index.html">here</a> to return home.
-				</p>
-			</div>
-			<hr />
-			<p class="footer">
-				Want to play again? Click <a href="game.html">here</a> to play.
-				<br />
-				Click <a href="index.html">here</a> to go home to read about our game.
-			</p>
-		</div>
-	</body>
+            <div id="thanks" hidden>
+                <h2 class="header">Spectacular!</h2>
+                <p>
+                    Thank you for your feedback!
+                    We will consider your feedback while working to improve the game.
+                    Click <a href="index.html">here</a> to return home.
+                </p>
+            </div>
+            <hr />
+            <p class="footer">
+                Want to play again? Click <a href="game.html">here</a> to play.
+                <br />
+                Click <a href="index.html">here</a> to go home to read about our game.
+            </p>
+        </div>
+    </body>
 </html>
