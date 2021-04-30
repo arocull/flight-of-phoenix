@@ -37,6 +37,8 @@ function Prop(position, size, collidable = true) {
     this.animationCol = 0;
     /** @description General-use timer for animation */
     this.animationTimer = 0;
+
+    this.alpha = 1;
 }
 
 /**

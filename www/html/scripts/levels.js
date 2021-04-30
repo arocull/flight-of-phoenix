@@ -21,6 +21,13 @@ const TEXTURE_platform_cloud = [
 TEXTURE_platform_cloud[0].src = 'images/sprites/platform_cloud1.png';
 TEXTURE_platform_cloud[1].src = 'images/sprites/platform_cloud2.png';
 
+const TEXTURE_creature = [
+    new Image(300, 100),
+    new Image(300, 100),
+];
+TEXTURE_creature[0].src = 'images/sprites/skywhale.png';
+TEXTURE_creature[1].src = 'images/sprites/skyfish.png';
+
 const TEXTURE_wind_vertical = new Image(500, 1000);
 TEXTURE_wind_vertical.src = 'images/effects/wind_vertical.png';
 const TEXTURE_wind_horizontal = new Image(3000, 750);
@@ -28,6 +35,36 @@ TEXTURE_wind_horizontal.src = 'images/effects/background_wind.png';
 
 const TEXTURE_indicator = new Image(216, 216);
 TEXTURE_indicator.src = 'images/sprites/indicator1.png';
+
+/**
+ * @function pickRandomTexture
+ * @summary Picks a random texture from the given texture array
+ * @param {Image[]} textureArray Array of textures
+ * @returns {Image} Returns a single textre
+ */
+function pickRandomTexture(textureArray) {
+    return textureArray[Math.floor(Math.random() * textureArray.length)];
+}
+/**
+ * @function genCreatures
+ * @summary Generates X number of creatures and adds them to the background
+ * @param {number} num Number of creatures to generate
+ */
+function genCreatures(num = 3, speed = 2, variance = 3) {
+    for (let i = 0; i < num; i++) {
+        background.push(
+            new PBackgroundExtra(
+                new Vector(50 * Math.random(), 25 * Math.random()),
+                new Vector(3, 1.5),
+                speed, // Speed
+                variance,
+                pickRandomTexture(TEXTURE_creature),
+                Math.random() * 2 // Upscale
+            )
+        );
+    }
+}
+
 
 
 
@@ -50,8 +87,7 @@ tutorialA.setup = function () {
 
     // Set textures, properties
     for (let i = 0; i < platforms.length; i++) {
-        const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
-        platforms[i].sprite = TEXTURE_platform_cloud[textureNum];
+        platforms[i].sprite = pickRandomTexture(TEXTURE_platform_cloud);
         platforms[i].spriteUpscale = 1.4;
         platforms[i].friction = 1;
         platforms[i].elasticity = 0;
@@ -60,6 +96,8 @@ tutorialA.setup = function () {
     }
 }
 tutorialA.setupBackground = function () {
+    genCreatures(1, 2, 3);
+
     const ind1 = new Prop(new Vector(9, 9.75), new Vector(2, 2));
 
     const ind2 = new Prop(new Vector(18, 10.4), new Vector(2, 2));
@@ -129,8 +167,7 @@ levelA.setup = function () {
         platforms[i].elasticity = 0;
         platforms[i].friction = 1;
 
-        const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
-        platforms[i].sprite = TEXTURE_platform_cloud[textureNum];
+        platforms[i].sprite = pickRandomTexture(TEXTURE_platform_cloud);
         platforms[i].spriteUpscale = 1.4;
 
         props.push(platforms[i]);
@@ -138,6 +175,9 @@ levelA.setup = function () {
     for (let i = 0; i < stormClouds.length; i++) {
         props.push(stormClouds[i]);
     }
+}
+levelA.setupBackground = function () {
+    genCreatures(3, 4, 4);
 }
 
 
@@ -182,6 +222,9 @@ levelB.tick = function(delta) {
             player.removeForce('wind_vertical'); // Remove wind force once player exits field
         }
     }
+}
+levelB.setupBackground = function () {
+    genCreatures(6, 5, 8);
 }
 
 
@@ -232,8 +275,7 @@ levelC.setup = function() {
         platforms[i].elasticity = 0;
         platforms[i].friction = 1;
 
-        const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
-        platforms[i].sprite = TEXTURE_platform_cloud[textureNum];
+        platforms[i].sprite = pickRandomTexture(TEXTURE_platform_cloud);
         platforms[i].spriteUpscale = 1.4;
 
         props.push(platforms[i]);
@@ -247,9 +289,12 @@ levelC.tick = function(delta) {
         player.addForce('wind_horizontal', new Vector(-PHYSICS_gravity * 8, 0), 1);
     }
 }
+levelC.setupBackground = function () {
+    genCreatures(3, 15, 5);
+}
 
 
-// LEVEL D - Horizontal Wind and Obstacles //
+// LEVEL D - Sliding Platform //
 const levelD = new Level(new Vector(2, 16), new Vector(43, 16));
 levelD.backgroundColor = '#3377aa';
 levelD.backgroundWindSpeed /= 2.5;
@@ -268,8 +313,7 @@ levelD.setup = function() {
     this.platform.elasticity = 0;
     this.platform.friction = 1;
 
-    const textureNum = Math.floor(Math.random() * TEXTURE_platform_cloud.length);
-    this.platform.sprite = TEXTURE_platform_cloud[textureNum];
+    this.platform.sprite = pickRandomTexture(TEXTURE_platform_cloud);
     this.platform.spriteUpscale = 1.4;
 
 
@@ -286,6 +330,9 @@ levelD.setup = function() {
 }
 levelD.tick = function(delta) {
     this.platform.position.x = 25 + Math.sin(this.runTime) * 3;
+}
+levelD.setupBackground = function () {
+    genCreatures(3, 2, 3);
 }
 
 

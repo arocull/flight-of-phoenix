@@ -92,6 +92,8 @@ Render.prototype.drawProp = function(obj) {
     const pos = this.getDrawPos(obj.getTopLeft());
     const size = this.getDrawSize(obj.size);
 
+    this.context.globalAlpha = obj.alpha;
+
     if (obj.animated && obj.sprite) { // Draw animated sprite
         const framePosX = obj.spriteWidth * obj.animationCol; // Pick column
         const framePosY = obj.spriteHeight * (obj.animationRow * 2) + (obj.flipped * obj.spriteHeight);
@@ -122,6 +124,8 @@ Render.prototype.drawProp = function(obj) {
         this.context.fillStyle = '#000000';
         this.context.fillRect(pos.x, pos.y, size.x, size.y);
     }
+
+    this.context.globalAlpha = 1;
 }
 /**
  * @function drawPropSpecificUnderlay
