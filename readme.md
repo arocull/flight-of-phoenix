@@ -1,7 +1,7 @@
 Final Project for CGT141 (Web Design) at Purdue University. We decided a game would be fun to make!
 
 This game was developed by Alan O'Cull, Patrick Ryan, and Shelby Hockaday.
-As of 4/28/2021, it is available to play at [flightofphoenixga.me](https://www.flightofphoenixga.me), though may not be online forever.
+As of 10/20/2021, it is available to play at [alanocull.com/phoenix](https://alanocull.com/phoenix/), though may not be online forever.
 
 # Play
 To play, simply open [game.html](www/html/game.html) in your web browser browser.
