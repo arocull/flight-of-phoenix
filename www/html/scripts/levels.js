@@ -36,6 +36,9 @@ TEXTURE_wind_horizontal.src = 'images/effects/background_wind.png';
 const TEXTURE_indicator = new Image(216, 216);
 TEXTURE_indicator.src = 'images/sprites/indicator1.png';
 
+const TEXTURE_credits = new Image(1024, 386);
+TEXTURE_credits.src = 'images/sprites/credits.png';
+
 /**
  * @function pickRandomTexture
  * @summary Picks a random texture from the given texture array
@@ -114,7 +117,12 @@ tutorialA.setupBackground = function () {
     ind5.sprite = TEXTURE_indicator;
     ind6.sprite = TEXTURE_indicator;
 
-    background.push(ind1, ind2, ind3, ind4, ind5, ind6);
+    const creditsScale = new Vector(1.024 * 16, 0.386 * 16);
+    const creditsPosition = new Vector(creditsScale.x / 2, 25 - creditsScale.y / 2);
+    const credits = new Prop(creditsPosition, creditsScale, false);
+    credits.sprite = TEXTURE_credits;
+
+    background.push(ind1, ind2, ind3, ind4, ind5, ind6, credits);
 }
 
 

@@ -164,7 +164,7 @@ function doFrame(newTime) {
                 level = level.nextLevel;
                 ENGINE_INTERNAL_reset(true);
             } else { // Redirect to end screen
-                const url = window.location.toString().replace('game.html', 'home.html');
+                const url = window.location.toString().replace('index.html', 'home.html');
                 window.location.replace(url);
             }
 

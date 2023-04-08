@@ -1,8 +1,12 @@
-Final Project for CGT141 (Web Design) at Purdue University. We decided a game would be fun to make!
-If you'd like to see the version we submitted, check out the branch `archive-cgt141`
+Initially a final project for CGT141 (Web Design) at Purdue University.
+If you'd like to see the version we submitted for class, check out the branch `archive-cgt141`.
 
 This game was developed by Alan O'Cull, Patrick Ryan, and Shelby Hockaday.
-As of April 18th, 2023, it is available to play at [alanocull.com/phoenix](https://alanocull.com/phoenix/), though may not be online forever.
+- Art - Shelby Hockaday
+- Level Design, Mechanic Design, Home Page - Patrick Ryan
+- Engine, Art, Level Design, Survey Page - Alan O'Cull
+
+As of April 18th, 2023, this is available to play at [alanocull.com/phoenix](https://alanocull.com/phoenix/), though may not be online forever. However, you can easily download this and play it locally--it needs no internet.
 
 # Play
 To play, simply open [game.html](www/html/game.html) in your web browser browser.
